@@ -409,3 +409,85 @@ document.querySelectorAll('.faq-q').forEach((btn) => {
     if (!open) track('faq_open', { faq_question: btn.textContent.trim() });
   });
 });
+
+/* ---------- Hero photo gallery (S2, desktop) ----------
+   Slide 0 is in the HTML (a <picture> that loads eagerly on desktop and nothing
+   on mobile). The other nine are built here on demand, gated on the same >=768
+   media query — so mobile loads none of them and desktop never fetches all ten
+   at once: each slide loads just before it is shown, and the next one preloads
+   during idle so the first fade doesn't stall. */
+const heroGallery = document.querySelector('[data-hero-gallery]');
+const galleryDesktop = window.matchMedia('(min-width: 768px)');
+if (heroGallery) {
+  const data = JSON.parse(heroGallery.querySelector('.hero-gallery-slides').textContent);
+  const slides = [heroGallery.querySelector('.hero-gallery-slide')]; // index 0 (the <picture>)
+  const total = data.length + 1;
+  let idx = 0, timer = null, started = false;
+  const dots = [];
+
+  const buildSlide = (i) => {
+    if (slides[i]) return slides[i];
+    const img = document.createElement('img');
+    img.className = 'hero-gallery-slide';
+    img.alt = data[i - 1].alt;
+    img.width = 1400; img.height = 788;
+    img.decoding = 'async';
+    img.draggable = false;
+    img.src = data[i - 1].src;
+    heroGallery.appendChild(img); // dots keep their own z-index above the slides
+    slides[i] = img;
+    return img;
+  };
+
+  const paintDots = () => dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+
+  const show = (i) => {
+    i = (i + total) % total;
+    if (i === idx) return;
+    const next = buildSlide(i);
+    const swap = () => {
+      slides[idx].classList.remove('is-active');
+      next.classList.add('is-active');
+      idx = i;
+      paintDots();
+    };
+    // A freshly built <img> may still be decoding; wait so we never fade to a
+    // blank layer. The <picture> first slide is already loaded.
+    if (next.tagName === 'PICTURE' || next.complete) swap();
+    else next.addEventListener('load', swap, { once: true });
+  };
+
+  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+  const play = () => {
+    stop();
+    if (reducedMotion.matches) return;
+    timer = setInterval(() => { if (!document.hidden) show(idx + 1); }, 4800);
+  };
+
+  const start = () => {
+    if (started || !galleryDesktop.matches) return;
+    started = true;
+    const dotWrap = document.createElement('div');
+    dotWrap.className = 'hero-gallery-dots';
+    for (let i = 0; i < total; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'hero-gallery-dot' + (i === 0 ? ' is-active' : '');
+      b.setAttribute('aria-label', 'Show project photo ' + (i + 1));
+      b.addEventListener('click', () => { show(i); play(); });
+      dotWrap.appendChild(b);
+      dots.push(b);
+    }
+    heroGallery.appendChild(dotWrap);
+    // Preload the next slide so the first transition is instant.
+    (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => buildSlide(1));
+    play();
+    heroGallery.addEventListener('pointerenter', stop);
+    heroGallery.addEventListener('pointerleave', play);
+  };
+
+  start();
+  galleryDesktop.addEventListener('change', start); // resize mobile -> desktop
+  reducedMotion.addEventListener('change', () => { reducedMotion.matches ? stop() : (started && play()); });
+  document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (started && play()); });
+}

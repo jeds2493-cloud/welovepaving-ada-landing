@@ -15,7 +15,7 @@
 <meta property="og:title" content="ADA Accessibility Upgrades for Northern California Commercial Properties">
 <meta property="og:description" content="Identify and correct accessibility issues involving parking spaces, ramps, signage, pavement markings, accessible routes and surface conditions.">
 <meta property="og:url" content="https://www.welovepaving.com/lp/ada-accessibility-upgrades/">
-<meta property="og:image" content="https://www.welovepaving.com/images/ada-landing-hero-ikea.webp">
+<meta property="og:image" content="https://www.welovepaving.com/images/hero-g-1-despues.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,10 +32,10 @@
      parsing the CSS — preloading it here starts the fetch immediately and ahead
      of the form's heavy third-party assets, cutting LCP. -->
 <link rel="preload" as="image" href="images/ada-hero-bg.webp" fetchpriority="high">
-<!-- media= matches the breakpoint that shows .hero-media. Without it this
-     preload fires on mobile too, pulling 118KB at high priority for a photo
-     that is display:none there — on the paid traffic that can least afford it. -->
-<link rel="preload" as="image" href="images/ada-landing-hero-ikea.webp" media="(min-width: 768px)">
+<!-- The gallery's first slide, preloaded only where the gallery shows (>=768).
+     media= keeps it off mobile, where .hero-media is display:none and this would
+     otherwise pull a photo that never paints. -->
+<link rel="preload" as="image" href="images/hero-g-1-despues.webp" media="(min-width: 768px)">
 </head>
 <body>
 
@@ -157,17 +157,30 @@
       </div>
     </div>
 
-    <!-- S2 · Project photo — deliberately after the form, never before it -->
-    <div class="hero-media">
-      <!-- <picture> purely to keep the 118KB photo off mobile, where .hero-media is
-           display:none. Neither display:none nor loading=lazy stops an <img src>
-           from downloading (a hidden image has no box to intersect, so Chrome just
-           fetches it) — only an unmatched <source> does. Under 768px no source
-           matches, so the img falls back to the inline blank and costs 0 bytes. -->
-      <picture>
-        <source media="(min-width: 768px)" srcset="images/ada-landing-hero-ikea.webp">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='788'%3E%3C/svg%3E" alt="Aerial view of a We Love Paving crew installing accessible parking spaces at an IKEA store, with blue-striped ADA stalls, marked access aisles and vertical accessibility signage" width="1400" height="788" fetchpriority="high" data-track-view="project_photo_view">
+    <!-- S2 · Project photo gallery (desktop) — deliberately after the form.
+         Slide 1 loads eagerly on desktop via <picture> and nothing on mobile
+         (.hero-media is display:none below 768, and an unmatched <source> is the
+         only thing that keeps a hidden <img> from downloading). The other nine
+         slides live as JSON and are built by JS on demand, desktop only, so the
+         gallery never costs mobile a byte and never loads all ten up front. -->
+    <div class="hero-media" data-hero-gallery>
+      <picture class="hero-gallery-slide is-active">
+        <source media="(min-width: 768px)" srcset="images/hero-g-1-despues.webp">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='788'%3E%3C/svg%3E" alt="Aerial view of a freshly paved and restriped commercial parking lot with accessible stalls" width="1400" height="788" fetchpriority="high" data-track-view="project_photo_view">
       </picture>
+      <script type="application/json" class="hero-gallery-slides">
+        [
+          {"src":"images/hero-g-2-aereo.webp","alt":"Aerial view of a completed ADA parking area"},
+          {"src":"images/hero-g-3-parking.webp","alt":"Accessible parking stalls with fresh blue ADA striping"},
+          {"src":"images/hero-g-4-handicap.webp","alt":"Accessible parking space marked with the ADA symbol"},
+          {"src":"images/hero-g-5-making.webp","alt":"Crew applying fresh pavement markings"},
+          {"src":"images/hero-g-6-stripping.webp","alt":"Freshly painted parking lot striping"},
+          {"src":"images/hero-g-7-sign.webp","alt":"Vertical ADA accessibility signage at a parking space"},
+          {"src":"images/hero-g-8-commercial.webp","alt":"Commercial property parking lot after the ADA upgrade"},
+          {"src":"images/hero-g-9-lazboy.webp","alt":"Retail storefront parking lot with accessible access aisles"},
+          {"src":"images/hero-g-10-outside.webp","alt":"Exterior parking area with completed accessibility work"}
+        ]
+      </script>
     </div>
 
     <!-- S3 · Immediate trust strip — the in-hero instance, shown below 1080.
