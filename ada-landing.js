@@ -137,22 +137,40 @@ if (pledge && 'IntersectionObserver' in window) {
    focus message on its side; there is no way to force it from here.
    The href stays a real anchor, so with JS off the link still lands. */
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const heroTwoCol = window.matchMedia('(min-width: 1080px)');
 const condLinks = document.querySelectorAll('a[href="#hero-form"]');
 
 if (condLinks.length) {
+  const heroForm = document.getElementById('hero-form');
+
   const focusForm = () => {
     const frame = document.querySelector('.wlpquote-here iframe');
     if (frame) frame.focus();
   };
 
+  // Where a CTA should land the visitor.
+  //  Desktop (≥1080): the whole hero fits one screen with the form on the right,
+  //    so the top of the page already frames the form.
+  //  Below that the hero is stacked (copy → form → trust), so scrolling to the
+  //    top shows the copy and skips the form. Land on the form card itself,
+  //    parked just under the sticky header instead of overshooting to the top.
+  const targetScrollY = () => {
+    if (heroTwoCol.matches || !heroForm) return 0;
+    const headerH = headerEl ? headerEl.offsetHeight : 0;
+    const y = heroForm.getBoundingClientRect().top + window.scrollY - headerH - 12;
+    return Math.max(0, Math.round(y));
+  };
+
   condLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
+      const y = targetScrollY();
 
-      // Already at the top: no scroll will happen, so scrollend never fires.
-      if (window.scrollY === 0) { focusForm(); return; }
+      // Already there (or close enough): no scroll fires, so scrollend never
+      // would either — just focus.
+      if (Math.abs(y - window.scrollY) < 4) { focusForm(); return; }
 
-      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      window.scrollTo({ top: y, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 
       // Focus only once the scroll settles — focusing mid-flight cancels it.
       if ('onscrollend' in window && !reducedMotion.matches) {
