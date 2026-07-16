@@ -439,13 +439,22 @@ a:hover { color: var(--ada-blue-dark); }
   max-width: calc(100% - var(--seal) - 16px);
 }
 
-/* Embedded form from the WLP form library. The loader owns the height (it
-   listens for wlpquote:resize), so nothing here may constrain it. */
+/* Embedded form from the WLP form library. The loader owns the iframe height
+   (it listens for wlpquote:resize), so nothing here constrains the iframe. */
 .hero-embed { margin-bottom: 4px; }
 .wlpquote-here iframe {
   width: 100%;
   display: block;
   border: 0;
+}
+/* Reserve the hero form's settled height on the CONTAINER (not the iframe) from
+   the first paint, so the loader's async resize doesn't push the trust strip
+   below it — that push was the dominant mobile layout shift. The sem3 form
+   settles at ≈546 under 1080 and ≈499 above it; the floor holds either, and
+   pairs with data-min="500" so the iframe never reserves its default 600. */
+[data-instance="hero"] { min-height: 546px; }
+@media (min-width: 1080px) {
+  [data-instance="hero"] { min-height: 500px; }
 }
 
 .form-note { font-size: 11.5px; line-height: 1.45; color: var(--text-muted-light); text-align: center; margin-top: 10px; }
