@@ -910,9 +910,27 @@ a:hover { color: var(--ada-blue-dark); }
 /* Once it plays, the overlay would only be in the way of the native controls. */
 .video-wrap.is-playing .video-cover { opacity: 0; pointer-events: none; }
 .video-wrap.is-playing .video-badge { opacity: 0; }
+/* Reinforcement block under the video: a nudge line, the rating, and a pulled
+   quote so an undecided visitor gets the social proof without playing the clip. */
+.testimonial-quote {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 6px 8px 4px;
+}
+.testimonial-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ada-blue-light);
+}
+.testimonial-stars { display: flex; gap: 3px; }
+.star-icon { width: 16px; height: 16px; fill: var(--yellow); stroke: none; }
+.testimonial-text {
+  margin: 0;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(15px, 1.6vw, 18px); line-height: 1.32; color: #fff;
+}
 .testimonial-by {
+  font-style: normal;
   font-size: 12.5px; line-height: 1.5; color: var(--text-muted-dark);
-  padding: 2px 4px 4px;
 }
 .chips-label {
   font-family: var(--font-mono); font-size: 11px; font-weight: 600;
