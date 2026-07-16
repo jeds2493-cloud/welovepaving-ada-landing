@@ -77,6 +77,26 @@ const heroCard = document.getElementById('hero-form');
    Both are re-read on resize — the header shrinks with the logo under 560,
    and the utility bar rewraps to 2 rows under 900. */
 const utilityEl = document.querySelector('.utility-bar');
+
+/* Utility-bar marquee (mobile). The four badges don't fit one phone-width row,
+   so on mobile the bar scrolls them past. Duplicating the list gives the CSS a
+   seamless loop: the track holds two identical copies and slides left by one
+   copy's width, so the second copy takes the first's place with no jump. On
+   desktop the track is display:contents and the clone is hidden, so the bar
+   stays the centred row it always was. */
+if (utilityEl) {
+  const list = utilityEl.querySelector('ul');
+  if (list) {
+    const track = document.createElement('div');
+    track.className = 'util-track';
+    const clone = list.cloneNode(true);
+    clone.classList.add('util-clone');
+    clone.setAttribute('aria-hidden', 'true'); // the copy is decorative
+    list.replaceWith(track);
+    track.append(list, clone);
+  }
+}
+
 if (headerEl) {
   const publishChromeHeights = () => {
     const root = document.documentElement.style;
@@ -156,8 +176,14 @@ if (condLinks.length) {
   //    parked just under the sticky header instead of overshooting to the top.
   const targetScrollY = () => {
     if (heroTwoCol.matches || !heroForm) return 0;
-    const headerH = headerEl ? headerEl.offsetHeight : 0;
-    const y = heroForm.getBoundingClientRect().top + window.scrollY - headerH - 12;
+    // The sticky chrome the form has to clear. The header is always sticky; on
+    // mobile the utility bar is sticky above it too, so measure whatever is
+    // actually stuck rather than assuming a single bar.
+    let stickyH = headerEl ? headerEl.offsetHeight : 0;
+    if (utilityEl && getComputedStyle(utilityEl).position === 'sticky') {
+      stickyH += utilityEl.offsetHeight;
+    }
+    const y = heroForm.getBoundingClientRect().top + window.scrollY - stickyH - 12;
     return Math.max(0, Math.round(y));
   };
 

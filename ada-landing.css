@@ -137,6 +137,24 @@ a:hover { color: var(--ada-blue-dark); }
 }
 .utility-bar .icon { color: var(--yellow); font-size: 15px; }
 
+/* Marquee scaffold. Inert off mobile: display:contents drops the wrapper from
+   the box tree so the single list centres exactly as before, and the duplicate
+   copy is hidden. The mobile rules below switch it on. */
+.util-track { display: contents; }
+/* Scoped with .utility-bar so it outranks `.utility-bar ul` (which would
+   otherwise force the clone back to display:flex and duplicate the badges). */
+.utility-bar .util-clone { display: none; }
+@keyframes util-marquee { to { transform: translateX(-50%); } }
+/* Reduced motion: stop the scroll and let the row be swiped by hand instead, so
+   every badge is still reachable without animation. */
+@media (prefers-reduced-motion: reduce) {
+  .util-track { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+  .utility-bar { overflow-x: auto; touch-action: pan-x; }
+  .utility-bar .util-clone { display: none; }
+}
+
 /* Below the desktop row, the four badges fall into the wireframe's 2x2 block.
    `repeat(2, auto)` + `justify-content: center` keeps the block itself centred
    on the page while the two columns stay aligned with each other — plain
@@ -907,7 +925,8 @@ a:hover { color: var(--ada-blue-dark); }
 .final-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
 .final-points li { display: flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; color: #F2F0EA; }
 .final-points .icon { color: var(--yellow); font-size: 18px; }
-.final-points a { color: #F2F0EA; }
+/* Keep the phone number whole — it was breaking "(888) 273-" / "0077". */
+.final-points a { color: #F2F0EA; white-space: nowrap; }
 .final-card { background: var(--card-white); border-radius: var(--radius); padding: 24px; }
 /* The loader owns the frame's height (it listens for wlpquote:resize), so
    nothing here may constrain it. */
@@ -1203,11 +1222,27 @@ body { padding-bottom: 72px; }
 
 /* ============ MOBILE REFINEMENTS ============ */
 @media (max-width: 767px) {
-  /* S1 — two badges only: the utility bar was eating fold before the H1 even
-     started. The dropped two are repeated in the footer and the trust strip. */
-  .utility-bar li:nth-child(1),
-  .utility-bar li:nth-child(3) { display: none; }
-  .utility-bar ul { grid-template-columns: auto auto; }
+  /* S1 — all four badges in one row, marqueeing past (they don't fit a phone
+     width). The bar is sticky at the top and the header sticks right beneath
+     it (top: --utility-h, published by JS). */
+  .utility-bar {
+    position: sticky; top: 0; z-index: 51;
+    overflow: hidden;
+    padding: 7px 0;
+  }
+  .util-track {
+    display: flex; width: max-content;
+    animation: util-marquee 20s linear infinite;
+  }
+  .utility-bar .util-clone { display: flex; }
+  .utility-bar ul {
+    display: flex; flex-wrap: nowrap;
+    width: max-content; max-width: none;
+    margin: 0; padding: 0 24px 0 0;   /* trailing gap = the marquee's seam */
+    gap: 0 24px; justify-content: flex-start;
+  }
+  .utility-bar li { flex: none; white-space: nowrap; }
+  .site-header { top: var(--utility-h, 35px); }
 
   /* S2 — the hero photo is the first thing that can go: the form sits above it
      and the background is already a jobsite shot. */
