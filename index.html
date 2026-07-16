@@ -27,6 +27,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="ada-landing.css">
+<!-- The hero's dark background is the largest paint on mobile (the hero photo is
+     hidden there). It's a CSS background, so the browser only discovers it after
+     parsing the CSS — preloading it here starts the fetch immediately and ahead
+     of the form's heavy third-party assets, cutting LCP. -->
+<link rel="preload" as="image" href="images/ada-hero-bg.webp">
 <!-- media= matches the breakpoint that shows .hero-media. Without it this
      preload fires on mobile too, pulling 118KB at high priority for a photo
      that is display:none there — on the paid traffic that can least afford it. -->
@@ -708,7 +713,25 @@
   <div class="legal-body" id="legalBody" tabindex="0"></div>
 </dialog>
 
-<script src="https://quote.welovepaving.com/loader.js" defer></script>
+<!-- Load the WLP form library only after the page's own resources have settled.
+     Each of its two iframes pulls a ~1.3MB panda.png (2.5MB total); loading them
+     during initial paint saturated slow-mobile bandwidth and pushed LCP to ~20s.
+     The form's space is already reserved (data-min + container min-height), so it
+     slots in with no layout shift, and attribution (utm/gclid) is read from the
+     URL, which is still present a beat later. -->
+<script>
+  (function () {
+    function loadForms() {
+      var s = document.createElement('script');
+      s.src = 'https://quote.welovepaving.com/loader.js';
+      s.defer = true;
+      document.body.appendChild(s);
+    }
+    var whenIdle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+    if (document.readyState === 'complete') whenIdle(loadForms);
+    else window.addEventListener('load', function () { whenIdle(loadForms); }, { once: true });
+  })();
+</script>
 <script src="ada-landing.js"></script>
 </body>
 </html>
