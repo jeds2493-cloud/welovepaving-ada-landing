@@ -31,7 +31,7 @@
      hidden there). It's a CSS background, so the browser only discovers it after
      parsing the CSS — preloading it here starts the fetch immediately and ahead
      of the form's heavy third-party assets, cutting LCP. -->
-<link rel="preload" as="image" href="images/ada-hero-bg.webp">
+<link rel="preload" as="image" href="images/ada-hero-bg.webp" fetchpriority="high">
 <!-- media= matches the breakpoint that shows .hero-media. Without it this
      preload fires on mobile too, pulling 118KB at high priority for a photo
      that is display:none there — on the paid traffic that can least afford it. -->
