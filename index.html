@@ -504,12 +504,16 @@
              so both frames must be identical in size and framing — otherwise
              dragging reads as two different photos, not one change. -->
         <div class="ba" data-ba>
-          <img class="ba-img ba-before" src="images/ada-proof-before.webp"
-               alt="Aerial view of the commercial parking lot before the ADA upgrade, with cracked asphalt and faded striping"
+          <!-- The clip reveals from the left, so the LEFT-hand image is the one
+               in .ba-after-clip. To land "before" on the left (under the Before
+               tag) and "after" on the right, the images sit opposite to the
+               class names: the base carries the after photo, the clip the before. -->
+          <img class="ba-img ba-before" src="images/ada-proof-after.webp"
+               alt="The commercial parking lot after the ADA upgrade, freshly paved with crisp striping and accessible stalls"
                width="1200" height="675" loading="lazy" draggable="false">
           <div class="ba-after-clip">
-            <img class="ba-img" src="images/ada-proof-after.webp"
-                 alt="The same parking lot after the ADA upgrade, freshly paved with crisp striping and accessible stalls"
+            <img class="ba-img" src="images/ada-proof-before.webp"
+                 alt="The same parking lot before the ADA upgrade, with cracked asphalt and faded striping"
                  width="1200" height="675" loading="lazy" draggable="false">
           </div>
           <span class="ba-tag ba-tag--before">Before</span>
