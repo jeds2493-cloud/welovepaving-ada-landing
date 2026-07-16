@@ -1298,7 +1298,9 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
         rgba(20, 18, 14, 0.52) 62%,
         rgba(20, 18, 14, 0.44) 100%),
       url("images/hero-bg-mobile.webp");
-    background-position: top center;
+    /* Biased toward the right of the frame so the "Parking Only" ADA sign, which
+       sits on the right of the photo, clears the crop instead of hugging the edge. */
+    background-position: 72% top;
   }
 
   /* S6 — the mobile art carries the emblem at the top, so the separate seal is
