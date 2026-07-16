@@ -308,17 +308,14 @@ a:hover { color: var(--ada-blue-dark); }
   border-radius: 10px;
   border: 1px solid var(--border-light);
 }
-/* Scaled up and pushed to the lower right so the storefront sign falls
-   outside the frame — the shot is here for the ADA work, not the tenant's
-   branding. transform-origin does the panning; object-fit still governs the
-   base fill. */
+/* The photo is pre-cropped with no store branding to hide, so it fills the
+   frame at its natural scale — object-position just biases the crop toward the
+   paved surface and stalls, which is the subject. */
 .hero-media img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: 50% 60%;
-  transform: scale(1.75);
-  transform-origin: 62% 88%;
+  object-position: 50% 55%;
 }
 
 /* --- Hero short form --- */
