@@ -144,6 +144,25 @@ if (pledge && 'IntersectionObserver' in window) {
   pledgeObserver.observe(pledge);
 }
 
+/* ---------- Defer the S6 background art ----------
+   The .why-section backgrounds (222KB mobile / 303KB desktop) sit below the fold
+   but were loading during initial paint and starving the hero's background — the
+   mobile LCP resource. Load them only as the section nears the viewport. */
+const whySection = document.querySelector('.why-section');
+if (whySection) {
+  if ('IntersectionObserver' in window) {
+    const bgObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        whySection.classList.add('bg-in');
+        bgObserver.disconnect();
+      }
+    }, { rootMargin: '400px 0px' });
+    bgObserver.observe(whySection);
+  } else {
+    whySection.classList.add('bg-in');
+  }
+}
+
 /* ---------- Every in-page CTA that routes to the form ----------
    Selected by destination rather than by class, so the header button, the S4
    planning card, the six S5 condition cards, the S7 button and the mobile

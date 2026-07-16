@@ -1133,6 +1133,13 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   .why-grid { grid-template-columns: 1.5fr 1fr; gap: 44px; }
   .why-section {
     background-color: var(--bg-dark);
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
+  }
+  /* The image is deferred to .bg-in (JS adds it as the section nears the
+     viewport) so this below-fold art doesn't compete with the hero's LCP up top. */
+  .why-section.bg-in {
     background-image:
       linear-gradient(90deg,
         rgba(20, 18, 14, 0.84) 0%,
@@ -1140,9 +1147,6 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
         rgba(20, 18, 14, 0.28) 70%,
         rgba(20, 18, 14, 0.04) 100%),
       url("images/s6-background.webp");
-    background-size: cover;
-    background-position: right center;
-    background-repeat: no-repeat;
   }
   .why-section .pledge { display: none; }
   .process-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -1328,13 +1332,6 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
      emblem reads, then deepens where the heading and cards sit. */
   .why-section {
     background-color: var(--bg-dark);
-    background-image:
-      linear-gradient(180deg,
-        rgba(20, 18, 14, 0.06) 0%,
-        rgba(20, 18, 14, 0.14) 22%,
-        rgba(20, 18, 14, 0.80) 34%,
-        rgba(20, 18, 14, 0.92) 55%),
-      url("images/s6-background-mobile.webp");
     /* 100% auto, not cover: cover zooms the portrait art to fill the tall
        section and blows the emblem up over the heading. At full width the
        emblem keeps its natural size at the top and the dark base fills below. */
@@ -1342,6 +1339,17 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
     background-position: top center;
     background-repeat: no-repeat;
     padding-top: clamp(256px, 73vw, 320px);
+  }
+  /* Deferred to .bg-in so this 222KB below-fold art doesn't contend with the
+     hero background, which is the mobile LCP resource. */
+  .why-section.bg-in {
+    background-image:
+      linear-gradient(180deg,
+        rgba(20, 18, 14, 0.06) 0%,
+        rgba(20, 18, 14, 0.14) 22%,
+        rgba(20, 18, 14, 0.80) 34%,
+        rgba(20, 18, 14, 0.92) 55%),
+      url("images/s6-background-mobile.webp");
   }
   .why-section .pledge { display: none; }
 }
