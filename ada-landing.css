@@ -1069,10 +1069,10 @@ body { padding-bottom: 72px; }
     background-color: var(--bg-dark);
     background-image:
       linear-gradient(90deg,
-        rgba(20, 18, 14, 0.94) 0%,
-        rgba(20, 18, 14, 0.88) 42%,
-        rgba(20, 18, 14, 0.45) 70%,
-        rgba(20, 18, 14, 0.15) 100%),
+        rgba(20, 18, 14, 0.84) 0%,
+        rgba(20, 18, 14, 0.68) 42%,
+        rgba(20, 18, 14, 0.28) 70%,
+        rgba(20, 18, 14, 0.04) 100%),
       url("images/s6-background.webp");
     background-size: cover;
     background-position: right center;
@@ -1214,8 +1214,27 @@ body { padding-bottom: 72px; }
   .hero-media { display: none; }
   .hero-inner { grid-template-areas: "copy" "form" "trust"; }
 
-  /* S6 — the seal was ~340px of pure scroll mid-section. Small, and moved to
-     the top so it reads as the section's mark rather than a slab. */
-  .pledge { order: -1; }
-  .pledge img { max-width: 132px; }
+  /* S6 — the mobile art carries the emblem at the top, so the separate seal is
+     hidden and the section uses the portrait image as its background. The
+     content clears the emblem via padding-top (~the emblem's rendered height,
+     which tracks viewport width), and the gradient stays light up top so the
+     emblem reads, then deepens where the heading and cards sit. */
+  .why-section {
+    background-color: var(--bg-dark);
+    background-image:
+      linear-gradient(180deg,
+        rgba(20, 18, 14, 0.06) 0%,
+        rgba(20, 18, 14, 0.14) 22%,
+        rgba(20, 18, 14, 0.80) 34%,
+        rgba(20, 18, 14, 0.92) 55%),
+      url("images/s6-background-mobile.webp");
+    /* 100% auto, not cover: cover zooms the portrait art to fill the tall
+       section and blows the emblem up over the heading. At full width the
+       emblem keeps its natural size at the top and the dark base fills below. */
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+    padding-top: clamp(256px, 73vw, 320px);
+  }
+  .why-section .pledge { display: none; }
 }
