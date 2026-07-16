@@ -20,7 +20,12 @@
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- Load the font CSS without blocking first paint: media="print" makes it a
+     non-render-blocking fetch, then onload flips it to "all" to apply it. The
+     <noscript> keeps it working with JS off. display=swap already lets text
+     paint in the fallback immediately, so this only speeds FCP up. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="ada-landing.css">
 <!-- media= matches the breakpoint that shows .hero-media. Without it this
      preload fires on mobile too, pulling 118KB at high priority for a photo
@@ -137,7 +142,10 @@
              stay with the loader — re-firing them here would double-count the
              Google Ads conversion. -->
         <div class="hero-embed" data-track-view="hero_form_view">
-          <div class="wlpquote-here" data-variant="sem3" data-instance="hero"></div>
+          <!-- data-min reserves close to the settled height (≈499 desktop / 546
+               mobile) so the loader doesn't reserve its default 600 and then
+               shrink on resize — that shrink was the hero's layout shift. -->
+          <div class="wlpquote-here" data-variant="sem3" data-instance="hero" data-min="500"></div>
         </div>
 
         <p class="form-note">No obligation. Northern California commercial properties only.</p>
@@ -561,7 +569,9 @@
              attribution. full => form_source=sem_landing_detail, which is
              still an sem_* prefix and still fires the Google Ads conversion. -->
         <div class="final-embed" data-track-view="final_form_view">
-          <div class="wlpquote-here" data-variant="full" data-instance="detail"></div>
+          <!-- Settles ≈748; reserve near it so the below-fold form doesn't lurch
+               if the visitor scrolls to it while it's still loading. -->
+          <div class="wlpquote-here" data-variant="full" data-instance="detail" data-min="740"></div>
         </div>
 
         <p class="form-legal">No obligation. Northern California commercial properties only. By submitting, you agree WLP may contact you regarding your request. WLP is not a Certified Access Specialist and does not provide legal compliance certification.</p>

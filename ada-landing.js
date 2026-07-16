@@ -240,12 +240,11 @@ if (lightbox && typeof lightbox.showModal === 'function') {
   const lbCaption = document.getElementById('lightboxCaption');
 
   document.querySelectorAll('[data-cond-card]').forEach((card) => {
-    const img = card.querySelector('.cond-media img');
+    const media = card.querySelector('.cond-media');
+    const img = media && media.querySelector('img');
     if (!img) return;
 
-    card.addEventListener('click', (e) => {
-      // The CTA owns its own click — it goes to the form, not the photo.
-      if (e.target.closest('.cond-link')) return;
+    const openPhoto = () => {
       lbImg.src = img.currentSrc || img.src;
       lbImg.alt = img.alt;
       lbCaption.textContent = card.querySelector('h3').textContent;
@@ -254,16 +253,25 @@ if (lightbox && typeof lightbox.showModal === 'function') {
       // the dialog would otherwise autofocus that button and paint a ring on it.
       lightbox.focus();
       track('cond_photo_open', { condition: card.querySelector('h3').textContent });
+    };
+
+    // Pointer: tapping anywhere on the card body opens the photo; the CTA owns
+    // its own click and routes to the form instead.
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.cond-link')) return;
+      openPhoto();
     });
 
-    // Keyboard parity: the card is a real control, so it needs a tab stop and
-    // the usual activation keys.
-    card.tabIndex = 0;
-    card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', 'View photo: ' + card.querySelector('h3').textContent);
-    card.addEventListener('keydown', (e) => {
-      if (e.target !== card) return;
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    // The keyboard/AT control is the image, not the whole card. A card is a
+    // container with a heading and a link inside it, so role="button" on the
+    // <article> is an invalid nesting (a button can't wrap those). The media
+    // holds only the <img>, so it's a valid button — and the photo is exactly
+    // the thing worth activating.
+    media.setAttribute('role', 'button');
+    media.tabIndex = 0;
+    media.setAttribute('aria-label', 'View photo: ' + card.querySelector('h3').textContent);
+    media.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPhoto(); }
     });
   });
 
@@ -276,7 +284,7 @@ if (lightbox && typeof lightbox.showModal === 'function') {
     // keyboard users; strip it for a tap, where a lingering blue border just
     // reads as a stuck selection.
     const restored = document.activeElement;
-    if (!lastInputWasKeyboard && restored && restored.hasAttribute('data-cond-card')) {
+    if (!lastInputWasKeyboard && restored && restored.closest('[data-cond-card]')) {
       restored.blur();
     }
   });

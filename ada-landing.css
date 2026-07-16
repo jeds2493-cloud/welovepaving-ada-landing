@@ -449,7 +449,9 @@ a:hover { color: var(--ada-blue-dark); }
 }
 
 .form-note { font-size: 11.5px; line-height: 1.45; color: var(--text-muted-light); text-align: center; margin-top: 10px; }
-.form-legal { font-size: 10.5px; line-height: 1.45; color: #9A968E; margin-top: 8px; }
+/* #6F6B63, not the old #9A968E: fine print at 10.5px still needs AA (4.5:1),
+   and the lighter warm gray only reached 2.9:1 on the white card. */
+.form-legal { font-size: 10.5px; line-height: 1.45; color: #6F6B63; margin-top: 8px; }
 
 /* --- S3 trust strip. Two instances, one per breakpoint: .hero-trust rides
    inside the hero grid (<1080), .trust-sticky sits after the hero and pins
@@ -609,9 +611,12 @@ a:hover { color: var(--ada-blue-dark); }
    stretched link is gone — it would have swallowed both intents. */
 .cond-card { cursor: zoom-in; }
 .cond-card .cond-link { cursor: pointer; }
-.cond-card:focus-visible {
+/* The image is the focusable control now (role="button" in JS), not the card.
+   The offset is inset: the card is overflow:hidden, so an outset ring on a
+   full-width media would get clipped at the card's left and right edges. */
+.cond-media:focus-visible {
   outline: 3px solid var(--ada-blue-light);
-  outline-offset: 3px;
+  outline-offset: -3px;
 }
 /* Lift on hover. Gated on a real pointer: on touch, :hover sticks after a tap
    and the card would stay raised. */
