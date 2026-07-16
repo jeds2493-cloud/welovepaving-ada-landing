@@ -1,0 +1,1178 @@
+/* ============================================================
+   WLP — ADA Accessibility Upgrades · SEM landing
+   Self-contained stylesheet. Mirrors the tokens and visual
+   language of /css/styles.css, but ships only what a landing
+   with no navigation actually uses.
+   ============================================================ */
+
+/* ============ TOKENS ============ */
+:root {
+  --bg-dark: #14120E;
+  --bg-dark-2: #1B1813;
+  --bg-card-dark: #201C16;
+  --bg-cream: #F2F1EF;
+  --card-white: #FFFFFF;
+  --yellow: #F2C230;
+  --yellow-hover: #E0AF1E;
+  --text-dark: #1A1712;
+  --text-body: #4A453C;
+  --text-muted-dark: #A8A192;
+  --text-muted-light: #6B6558;
+  --border-light: #E3E2DF;
+  --border-dark: #322D24;
+  --gray-concrete: #EAE9E6;
+  --error-red: #D93838;
+
+  /* Technical accent, reserved for ADA/accessibility signal —
+     never for CTAs. Contrast on white is 6.1:1 (AA). */
+  --ada-blue: #0B5EA8;
+  --ada-blue-dark: #08477E;
+  --ada-blue-tint: #EFF6FC;
+  /* Same hue, lifted for dark surfaces. The brand blue is too dark to sit on
+     asphalt (~1.5:1); this holds AA there while still reading as the ADA
+     accent rather than a generic light blue. */
+  --ada-blue-light: #7FBCF0;
+  --success: #1F7A3D;
+  --success-tint: #EAFAF0;
+
+  --font-display: 'Barlow Semi Condensed', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --container-w: 1200px;
+  --radius: 14px;
+  --ease-mech: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--card-white);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  touch-action: pan-y;
+}
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--text-dark); margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: var(--ada-blue); }
+a:hover { color: var(--ada-blue-dark); }
+
+:focus-visible { outline: 3px solid var(--ada-blue); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+.container { max-width: var(--container-w); margin: 0 auto; padding: 0 20px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.icon {
+  width: 1em; height: 1em; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ============ BUTTONS ============ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 48px;
+  transition: background 0.15s var(--ease-mech), transform 0.15s var(--ease-mech), border-color 0.15s var(--ease-mech);
+  white-space: nowrap;
+}
+.btn-primary { background: var(--yellow); color: var(--text-dark); }
+.btn-primary:hover { background: var(--yellow-hover); color: var(--text-dark); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-dark { background: var(--bg-dark-2); color: var(--card-white); }
+.btn-dark:hover { background: #000; color: var(--card-white); }
+.btn-sm { padding: 10px 18px; font-size: 14px; min-height: 44px; }
+.btn-block { width: 100%; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+
+/* ============ S1 · UTILITY BAR + HEADER ============ */
+.utility-bar { background: var(--bg-dark-2); padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.utility-bar ul {
+  list-style: none;
+  /* margin/padding must not be zeroed wholesale here: this ul *is* the
+     .container, and a bare `margin: 0` outranks its `margin: 0 auto` and
+     drops the bar's centering on any viewport wider than 1200. */
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px 30px; flex-wrap: wrap;
+}
+.utility-bar li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; color: #F2F0EA;
+}
+.utility-bar .icon { color: var(--yellow); font-size: 15px; }
+
+/* Below the desktop row, the four badges fall into the wireframe's 2x2 block.
+   `repeat(2, auto)` + `justify-content: center` keeps the block itself centred
+   on the page while the two columns stay aligned with each other — plain
+   flex-wrap centres each row independently and leaves them ragged. */
+/* 900px is where all four badges stop fitting on one line and flex-wrap
+   starts splitting them 3+1. Below it they go to the wireframe's 2x2 block
+   instead of a ragged row. */
+@media (max-width: 899px) {
+  .utility-bar ul {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 8px 14px;
+  }
+}
+@media (max-width: 767px) {
+  .utility-bar li { font-size: 11px; }
+  .utility-bar .icon { font-size: 13px; }
+}
+@media (max-width: 400px) {
+  .utility-bar li { font-size: 10.5px; gap: 6px; }
+}
+
+/* Dark, like the header on welovepaving.com. The only logo asset carries a
+   white "WE LOVE PAVING" wordmark on transparent, so a light header erases
+   60% of the lockup — the site guarantees a dark backdrop behind it and this
+   landing does the same. */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(20, 18, 14, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-dark);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; padding: 12px 20px;
+  max-width: var(--container-w); margin: 0 auto;
+}
+/* flex:none — the nowrap CTA in .header-actions would otherwise squeeze the
+   logo down to a sliver on narrow screens. */
+.header-brand { display: flex; align-items: center; gap: 14px; flex: none; }
+.header-logo { height: 42px; width: auto; flex: none; }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+
+/* The CTA is pointless while the hero form is still on screen, so it stays
+   collapsed until JS adds .show-cta. It animates its own width rather than
+   being display:none'd: the phone sits to its left, and toggling display
+   would snap the phone ~250px sideways instead of letting it slide. */
+.header-cta {
+  max-width: 0;
+  padding-left: 0; padding-right: 0;
+  margin-left: -16px; /* cancels .header-actions gap while collapsed */
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden; /* keeps it out of the tab order while hidden */
+  transition: max-width 0.3s var(--ease-mech), opacity 0.2s var(--ease-mech),
+              padding 0.3s var(--ease-mech), margin 0.3s var(--ease-mech), visibility 0.3s;
+}
+.site-header.show-cta .header-cta {
+  max-width: 340px;
+  padding-left: 18px; padding-right: 18px;
+  margin-left: 0;
+  opacity: 1;
+  visibility: visible;
+  /* Pulses only while it is actually on screen — .show-cta is exactly that
+     condition, so the animation never runs against a hidden element. */
+  animation: ctaPulse 2.6s var(--ease-mech) 0.4s infinite;
+}
+/* A ring that expands and fades, rather than scaling the button itself: the
+   button sits in a sticky header next to the phone number, and pulsing its box
+   would nudge the layout on every cycle. */
+@keyframes ctaPulse {
+  0%        { box-shadow: 0 0 0 0 rgba(242, 194, 48, 0.55); }
+  55%, 100% { box-shadow: 0 0 0 12px rgba(242, 194, 48, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header.show-cta .header-cta { animation: none; }
+}
+.header-phone { text-align: right; text-decoration: none; }
+.header-phone-label { font-size: 11px; font-weight: 600; color: var(--text-muted-dark); }
+.header-phone-num {
+  display: flex; align-items: center; gap: 7px; justify-content: flex-end;
+  color: var(--card-white); font-family: var(--font-display);
+  font-weight: 800; font-size: 21px;
+}
+.header-phone:hover .header-phone-num { color: var(--yellow); }
+
+/* Below 1080 the sticky bar keeps Call, and Request Review lives up here — so
+   the header shows the CTA but not the phone number, which would duplicate it.
+   This block has to sit after the .header-cta rules above: a media query adds no
+   specificity, so an earlier one would just lose to the collapsed base state. */
+@media (max-width: 1079px) {
+  .header-phone { display: none; }
+  /* Always on, never revealed: on desktop this button waits until the form has
+     scrolled away, but here it is the page's only Request Review control. */
+  .header-cta {
+    max-width: none;
+    padding-left: 14px; padding-right: 14px;
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+    animation: none;
+    font-size: 13px;
+  }
+}
+
+/* ============ S2 · HERO ============ */
+/* Photo background behind a scrim.
+   The photo runs from near-black glass to white striping and bright foliage —
+   a ~0.95 luminance spread — so light type over the raw image is unreadable
+   wherever a stripe or a lit surface passes behind it. The scrim is what makes
+   it legible, not a mood effect; the values are a contrast budget.
+   Layer order matters: the gradient is listed first so it paints ON TOP of the
+   photo.
+   Flat and heavy by default. Here the copy spans ~95% of the width, so there
+   is nowhere to relax it — a graded scrim leaves its light end under the text
+   and the eyebrow collapses to 2.8:1. Desktop grades it (see below), because
+   there the form card covers the light end. */
+.hero {
+  background-color: #2A2723;
+  background-image:
+    linear-gradient(rgba(20, 18, 14, 0.90), rgba(20, 18, 14, 0.90)),
+    url("images/ada-hero-bg.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 48px 0 0;
+}
+.hero-inner {
+  max-width: var(--container-w); margin: 0 auto; padding: 0 20px;
+  display: grid; gap: 26px;
+  /* The photo must never precede the form. */
+  grid-template-areas: "copy" "form" "trust" "media";
+}
+.hero-copy { grid-area: copy; }
+.hero-form-wrap { grid-area: form; }
+.hero-media { grid-area: media; }
+.hero-trust { grid-area: trust; }
+
+/* --ada-blue-light, not --ada-blue: the brand blue is itself dark (luminance
+   0.11) and lands at ~1.5:1 on asphalt — invisible. This keeps the ADA blue
+   hue as the technical accent while clearing AA on the dark base. It is the
+   tightest text in the hero, so it sets the ceiling on the texture's opacity. */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.12em; color: var(--ada-blue-light);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.hero h1 { font-size: clamp(28px, 6vw, 46px); line-height: 1.06; font-weight: 800; margin-bottom: 16px; color: var(--card-white); }
+/* 16px matches the h1's own bottom margin, so eyebrow -> h1 -> lede -> bullets
+   step at an even rhythm instead of widening at the last gap. */
+.hero-lede { font-size: clamp(15px, 2vw, 17px); color: #D6D3CB; margin-bottom: 16px; max-width: 56ch; }
+
+/* No bottom margin: it's the last thing in .hero-copy and the grid gap owns
+   the spacing to the next cell. */
+.hero-benefits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.hero-benefits li { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #F2F0EA; }
+/* Stays a white chip on the asphalt: it keeps the ADA blue glyph on white at
+   its full 6.1:1, and reads as a marker set into the surface. */
+.benefit-icon {
+  width: 34px; height: 34px; flex: none;
+  background: var(--card-white); border: 1.5px solid var(--card-white);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  color: var(--ada-blue); font-size: 18px;
+}
+
+
+/* The frame owns the size; the photo is taken out of flow inside it.
+   That matters on desktop: an in-flow img contributes its intrinsic height
+   (366px at this width) as max-content, and a `1fr` row in an auto-height
+   grid sizes to max-content — so the photo would dictate the row and the
+   form card could never pull it taller or shorter. Absolute means it
+   contributes nothing and the row is free to follow the card. */
+.hero-media {
+  position: relative;
+  overflow: hidden;
+  height: 230px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+}
+/* Scaled up and pushed to the lower right so the storefront sign falls
+   outside the frame — the shot is here for the ADA work, not the tenant's
+   branding. transform-origin does the panning; object-fit still governs the
+   base fill. */
+.hero-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+  transform: scale(1.75);
+  transform-origin: 62% 88%;
+}
+
+/* --- Hero short form --- */
+.lead-card {
+  /* Owned by the card, not the seal, so the heading and subtitle can reserve
+     the seal's width and stop running underneath it.
+     112px is a floor, not a preference: the em-scaled lines shrink with it,
+     and below this the "Qualifying · Terms Apply" line drops under ~6px.
+     Mobile still needs its own pass — it likely wants different ratios, not
+     just a smaller seal. */
+  --seal: 112px;
+  position: relative;
+  background: var(--card-white);
+  border: 1.5px solid var(--text-dark);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 6px 6px 0 rgba(20,18,14,0.10);
+}
+/* Holographic warranty seal.
+   --seal drives both the diameter and the font-size, so every line is sized
+   in em against it: bump --seal at a breakpoint and the whole lockup scales
+   together instead of needing four more font-size overrides. */
+.warranty-seal {
+  --px: 50%; --py: 50%;      /* pointer position, set by JS on desktop */
+  --tilt-x: 0deg; --tilt-y: 0deg;
+  --holo: 0.18;              /* subtle at rest so the seal still reads as WLP yellow */
+  --glare: 0;
+
+  position: absolute; top: -24px; right: 14px;
+  width: var(--seal); height: var(--seal);
+  font-size: var(--seal);
+  background: var(--yellow);
+  border: 2px solid var(--text-dark);
+  border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; line-height: 1.06;
+  font-family: var(--font-display); color: var(--text-dark);
+  /* Inner bevel reads as a struck metal edge and gives the gold rim something
+     to terminate against. */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 251, 230, 0.45),
+    inset 0 0 14px rgba(168, 115, 11, 0.30),
+    0 6px 20px rgba(20, 18, 14, 0.22);
+  overflow: hidden;
+  isolation: isolate; /* keeps the blend modes below from bleeding onto the card */
+  transform: perspective(700px) rotate(5deg) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 0.4s var(--ease-mech);
+}
+
+/* Iridescent sweep, centred on the cursor and covering the whole face. Gold
+   palette rather than rainbow: every stop stays in the brand's amber family.
+   Sits under the text (z-index 3) so legibility never depends on the blend
+   result. hard-light, not overlay — over a saturated yellow, overlay flattens
+   the gradient into one warm wash with no shimmer at all. */
+.warranty-seal::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: conic-gradient(from 200deg at var(--px) var(--py),
+    #FFFBE6, #C9971A, #FFE98A, #A8730B, #FFF6D5, #D9A521, #FFEFA8, #B8860B, #FFFBE6);
+  mix-blend-mode: hard-light;
+  opacity: var(--holo);
+  transition: opacity 0.4s var(--ease-mech);
+}
+/* Specular glare that tracks the cursor across the whole face. Safe for
+   legibility: it renders under the text and only lightens the gold, which the
+   dark type gains contrast against. */
+.warranty-seal::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(circle at var(--px) var(--py),
+    rgba(255,253,240,0.95), rgba(255,253,240,0) 58%);
+  mix-blend-mode: screen;
+  opacity: var(--glare);
+  transition: opacity 0.4s var(--ease-mech);
+}
+
+/* The 1px light shadow underneath is an emboss, not decoration: it separates
+   the dark type from the gold it sits on and stops the small lines muddying
+   into the background. */
+.warranty-seal > span {
+  position: relative; z-index: 3;
+  text-shadow: 0 1px 0 rgba(255, 251, 230, 0.55);
+}
+.warranty-seal .s1 { font-size: 0.079em; font-weight: 800; letter-spacing: 0.1em; }
+.warranty-seal .s2 { font-size: 0.20em; font-weight: 900; letter-spacing: -0.005em; }
+.warranty-seal .s3 { font-size: 0.069em; font-weight: 800; letter-spacing: 0.04em; }
+.warranty-seal .s4 {
+  font-family: var(--font-body); font-size: 0.055em; font-weight: 700;
+  color: #2E2A22; margin-top: 0.025em;
+}
+
+/* Desktop only, and only for a real cursor — a tilt that keys off pointer
+   position has nothing to track on touch. */
+@media (hover: hover) and (pointer: fine) and (min-width: 1080px) {
+  .warranty-seal { cursor: default; }
+  .warranty-seal:hover { --holo: 0.5; --glare: 0.65; }
+  .warranty-seal.is-tracking { transition: none; } /* follow the cursor 1:1 */
+}
+
+/* The tilt is the whole point of the effect; without motion the seal just
+   stays put and keeps its static iridescence. */
+@media (prefers-reduced-motion: reduce) {
+  .warranty-seal { transform: rotate(5deg); }
+}
+
+.lead-card h2 { font-size: 21px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; max-width: 16ch; }
+/* Clears the seal parked in the top-right corner. The 16px covers the extra
+   width the 5deg rotation adds to the seal's bounding box, plus a gutter. */
+.lead-card-sub {
+  font-size: 13px; color: var(--text-muted-light); margin-bottom: 18px;
+  max-width: calc(100% - var(--seal) - 16px);
+}
+
+/* Embedded form from the WLP form library. The loader owns the height (it
+   listens for wlpquote:resize), so nothing here may constrain it. */
+.hero-embed { margin-bottom: 4px; }
+.wlpquote-here iframe {
+  width: 100%;
+  display: block;
+  border: 0;
+}
+
+.form-note { font-size: 11.5px; line-height: 1.45; color: var(--text-muted-light); text-align: center; margin-top: 10px; }
+.form-legal { font-size: 10.5px; line-height: 1.45; color: #9A968E; margin-top: 8px; }
+
+/* --- S3 trust strip. Two instances, one per breakpoint: .hero-trust rides
+   inside the hero grid (<1080), .trust-sticky sits after the hero and pins
+   under the header (>=1080). Styles are shared; only one is ever displayed. */
+.hero-trust, .trust-sticky { background: var(--bg-dark); }
+.hero-trust {
+  /* breaks out of the 1200 container to reach the viewport edges */
+  margin-inline: calc(50% - 50vw);
+  padding: 16px max(20px, calc(50vw - 600px));
+  margin-top: 8px;
+}
+.trust-sticky { display: none; } /* desktop-only; enabled at 1080 */
+.hero-trust ul, .trust-sticky ul {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px;
+}
+.hero-trust li, .trust-sticky li { display: flex; align-items: center; gap: 9px; }
+.hero-trust .icon, .trust-sticky .icon { color: var(--yellow); font-size: 18px; }
+.trust-label { display: block; font-family: var(--font-display); font-weight: 700; font-size: 12.5px; line-height: 1.25; color: #fff; }
+.trust-value { display: block; font-size: 10px; font-weight: 500; line-height: 1.3; color: var(--text-muted-dark); }
+
+/* ============ SECTIONS ============ */
+.section { padding: 52px 0; }
+.section--cream { background: var(--bg-cream); }
+.section--dark { background: var(--bg-dark); }
+.section--darker { background: #0F0D0A; }
+.section h2 { font-size: clamp(22px, 4vw, 30px); line-height: 1.15; font-weight: 800; }
+.section--dark h2, .section--darker h2 { color: #fff; }
+.section-lede { font-size: clamp(14px, 2vw, 16px); color: var(--text-body); margin: 10px 0 24px; max-width: 68ch; }
+.section--dark .section-lede { color: #C8C5BD; }
+
+/* ============ S4 · RISK BAND ============ */
+.risk-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+
+/* Tinted shell wrapping a white card — the tint is the only thing carrying
+   the red/blue signal, so the card itself stays neutral and readable.
+   Informational only: no actions live in here. */
+.risk-card {
+  border-radius: 22px;
+  padding: 10px;
+  /* Column so the white card and the shell's footer slot stack; the grid
+     stretches both shells to equal height and the inner card absorbs the
+     difference, keeping the two footers on the same line. */
+  display: flex;
+  flex-direction: column;
+}
+/* Hazard scheme, in the brand's own black/yellow — the site-sign language for
+   "attention" and a better fit than a generic red. */
+.risk-card--reactive { background: rgba(242, 194, 48, 0.16); }
+.risk-card--planned { background: rgba(11, 94, 168, 0.10); }
+
+/* Strip across the top of each shell. Pseudo-elements rather than markup:
+   pure signalling, nothing to read or announce. Shared geometry, so only the
+   fill differs between the two cards. */
+.risk-card--reactive::before,
+.risk-card--planned::before {
+  content: "";
+  flex: none;
+  height: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+/* Caution tape: the card means "stop, deal with this". */
+.risk-card--reactive::before {
+  background: repeating-linear-gradient(45deg,
+    var(--yellow) 0 10px, var(--text-dark) 10px 20px);
+}
+/* Same barricade rhythm as the tape, in blue/white: reads as a marked-out
+   route rather than a hazard. */
+.risk-card--planned::before {
+  background: repeating-linear-gradient(45deg,
+    var(--ada-blue) 0 10px, #FFFFFF 10px 20px);
+}
+
+.risk-card-inner {
+  background: var(--card-white);
+  border-radius: 14px;
+  padding: 20px;
+  flex: 1; /* soaks up the height difference between the two cards */
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 1px 2px rgba(20, 18, 14, 0.05), 0 6px 16px rgba(20, 18, 14, 0.05);
+}
+.risk-icon {
+  width: 42px; height: 42px; flex: none;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px;
+}
+/* Inverted against the planning card: solid black disc, yellow glyph. Yellow
+   on white is ~1.6:1, so the colour can only carry the shape, never the mark. */
+.risk-card--reactive .risk-icon { background: var(--text-dark); color: var(--yellow); }
+.risk-card--planned .risk-icon { background: rgba(11, 94, 168, 0.10); color: var(--ada-blue); }
+
+.risk-body { flex: 1; min-width: 0; }
+.risk-card h3 {
+  font-family: var(--font-display); font-weight: 800; font-size: 17px;
+  color: var(--text-dark); margin-bottom: 12px;
+}
+.risk-card ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.risk-card li {
+  position: relative; padding-left: 16px;
+  font-size: 13.5px; font-weight: 500; color: var(--text-body);
+}
+.risk-card li::before {
+  content: ""; position: absolute; left: 0; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%;
+}
+/* Dark, not yellow: a yellow dot on white would be invisible. */
+.risk-card--reactive li::before { background: var(--text-dark); }
+.risk-card--planned li::before { background: var(--ada-blue); }
+
+/* Footer slot inside the tinted shell — the reference puts its closing line
+   exactly here. One action per card, never two: the reactive card calls, the
+   planning card goes to the form. */
+.risk-cta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 8px 12px 4px;
+  margin: 0;
+  line-height: 1.35;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  /* Ink, not yellow. Yellow is the alarm on this card, but it can't carry
+     text — the tape strip and the black disc do the signalling, and the
+     wording stays maximally legible on the amber wash. */
+  color: var(--text-dark);
+  text-decoration: none;
+}
+.risk-cta strong { font-weight: 800; }
+.risk-cta .icon { font-size: 18px; flex: none; }
+.risk-cta-arrow {
+  margin-left: auto;
+  transition: transform 0.15s var(--ease-mech);
+}
+.risk-cta:hover .risk-cta-arrow { transform: translateX(3px); }
+/* Hover scoped per card — the amber ink would be wrong on the blue shell. */
+.risk-card--reactive .risk-cta:hover { color: #6B5200; }
+
+/* Blue ink to match this card's own icon and bullets. */
+.risk-cta--planned { color: var(--ada-blue); font-size: 14px; }
+.risk-cta--planned:hover { color: var(--ada-blue-dark); }
+
+/* ============ S5 · ADA CONDITIONS ============ */
+.cond-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.cond-card {
+  background: var(--bg-card-dark); border-radius: 12px; overflow: hidden;
+  display: flex; flex-direction: column;
+  position: relative; /* anchors the stretched link below */
+  transition: transform 0.2s var(--ease-mech), box-shadow 0.2s var(--ease-mech);
+}
+/* The card body opens the photo; only the button routes to the form. The
+   stretched link is gone — it would have swallowed both intents. */
+.cond-card { cursor: zoom-in; }
+.cond-card .cond-link { cursor: pointer; }
+.cond-card:focus-visible {
+  outline: 3px solid var(--ada-blue-light);
+  outline-offset: 3px;
+}
+/* Lift on hover. Gated on a real pointer: on touch, :hover sticks after a tap
+   and the card would stay raised. */
+@media (hover: hover) and (pointer: fine) {
+  .cond-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(20, 18, 14, 0.20);
+  }
+}
+.cond-body { padding: 18px 18px 0; }
+.cond-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #2E2A22; border: 1px solid #3A352B; color: #B8B5AD;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; padding: 5px 11px; border-radius: 20px;
+}
+.cond-tag .icon { color: var(--ada-blue); font-size: 12px; }
+.cond-card h3 {
+  font-size: 18px; font-weight: 800; line-height: 1.15; color: #fff;
+  text-transform: uppercase; margin: 14px 0 8px;
+}
+.cond-card p { font-size: 13px; line-height: 1.45; color: var(--text-muted-dark); margin-bottom: 16px; }
+.cond-media { height: 150px; border-top: 1px solid #2E2A22; border-bottom: 1px solid #2E2A22; }
+.cond-media img { width: 100%; height: 100%; object-fit: cover; }
+/* The card slot is 2.5:1 against a 16:9 photo, so cover drops ~30% of the
+   height — centred, that lands right on the sign face, which is the whole
+   subject. Pull the crop up to keep it. */
+.cond-card--signage .cond-media img { object-position: 50% 26%; }
+.cond-foot { padding: 16px 18px 18px; margin-top: auto; }
+.cond-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--yellow); color: var(--text-dark);
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 800;
+  letter-spacing: 0.06em; padding: 11px 15px; border-radius: 6px;
+  text-decoration: none; min-height: 44px; box-sizing: border-box;
+}
+.cond-link:hover { background: var(--yellow-hover); color: var(--text-dark); }
+.cond-disclaimer {
+  margin-top: 16px; background: var(--bg-dark-2); border-radius: 8px;
+  padding: 14px 18px; font-size: 12.5px; line-height: 1.5; color: #D8D5CC;
+}
+
+/* ============ S6 · WHY + PANDA PLEDGE ============ */
+.why-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: start; }
+.why-cards { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.why-card { background: var(--bg-dark-2); border: 1px solid var(--border-dark); border-radius: 10px; padding: 16px; }
+.why-card .why-icon {
+  width: 36px; height: 36px; background: var(--yellow); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-dark); font-size: 19px; margin-bottom: 11px;
+}
+.why-card h3 { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.why-card p { font-size: 12.5px; line-height: 1.45; color: #C8C5BD; }
+
+/* The official seal, standing on its own — no card, no border. It already
+   carries its own black/yellow ring, so framing it would double the edge.
+   align-self overrides the grid's `align-items: start` for this cell only, so
+   the seal sits centred against the taller column of cards beside it while
+   that column still starts at the top. */
+.pledge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+.pledge img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+/* ============ S7 · PROCESS ============ */
+.process-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.process-step { display: flex; gap: 12px; align-items: flex-start; }
+/* The connecting rule reads as a timeline only when the steps sit in a row,
+   so it stays hidden until the desktop breakpoint. */
+.step-rule { display: flex; align-items: center; gap: 10px; flex: none; }
+.step-rule .line { display: none; }
+.step-num {
+  width: 34px; height: 34px; flex: none; background: var(--yellow);
+  border: 1.5px solid var(--text-dark); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--text-dark);
+}
+.process-step h3 { font-size: 15px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+.process-step p { font-size: 12.5px; line-height: 1.4; color: var(--text-muted-light); }
+
+/* ============ S8 · PROOF ============ */
+.proof-grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: stretch; }
+.proof-card { background: var(--card-white); border: 1px solid var(--border-light); border-radius: 10px; overflow: hidden; }
+
+/* ---- Before/after wipe ---- */
+.ba { position: relative; aspect-ratio: 16 / 9; overflow: hidden; user-select: none; background: #000; }
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* The "after" is clipped from the left, so the divider position is simply the
+   width of this box — no masks, no compositing. */
+.ba-after-clip {
+  position: absolute; inset: 0;
+  width: var(--ba, 50%);
+  overflow: hidden;
+}
+/* Pinning the inner image to the .ba width (not the clip's) keeps it locked to
+   the frame while its container is resized — otherwise it would squash. */
+.ba-after-clip .ba-img { width: var(--ba-w, 100%); max-width: none; }
+.ba-tag {
+  position: absolute; top: 10px;
+  font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 8px; border-radius: 3px; color: #fff;
+  pointer-events: none;
+}
+.ba-tag--before { left: 10px; background: rgba(20,18,14,0.82); }
+.ba-tag--after { right: 10px; background: rgba(11,94,168,0.9); }
+/* The range is the control; it is invisible but present, so keyboard and AT
+   get a real slider. Its thumb is what the pointer actually drags. */
+.ba-range {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  margin: 0; padding: 0;
+  background: none; border: none;
+  appearance: none; -webkit-appearance: none;
+  cursor: ew-resize;
+  z-index: 3;
+}
+.ba-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 44px; height: 100vh; /* tall grab strip, not a dot */
+  cursor: ew-resize;
+  background: transparent;
+}
+.ba-range::-moz-range-thumb {
+  width: 44px; height: 400px;
+  border: none; background: transparent; cursor: ew-resize;
+}
+.ba-range:focus-visible { outline: 3px solid var(--ada-blue-light); outline-offset: -3px; }
+/* Purely decorative: the visible divider + grip, positioned from the same var */
+.ba-handle {
+  position: absolute; top: 0; bottom: 0;
+  left: var(--ba, 50%);
+  width: 2px; margin-left: -1px;
+  background: #fff;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(20,18,14,0.25);
+}
+.ba-handle svg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px; height: 34px; padding: 8px;
+  border-radius: 50%;
+  background: #fff; color: var(--text-dark);
+  box-shadow: 0 3px 10px rgba(20,18,14,0.35);
+}
+.proof-specs {
+  padding: 16px; display: grid; grid-template-columns: auto 1fr; gap: 8px 12px;
+  font-size: 12.5px; line-height: 1.4; color: var(--text-muted-light);
+}
+.proof-specs b { color: var(--text-dark); }
+.testimonial {
+  background: var(--bg-dark-2); border-radius: 10px;
+  padding: 12px; margin: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+}
+/* Self-hosted player. The source is only 400x224, so it is upscaled here —
+   see the note in the handover. object-fit: cover crops rather than
+   letterboxing it inside the 16:9 slot. */
+/* ---- Local video player ---- */
+.video-wrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+/* The source is only 400x224, so it is upscaled into this slot. cover crops
+   rather than letterboxing it inside the 16:9 frame. */
+.video-local {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+  background: #000;
+  object-fit: cover;
+}
+
+/* Poster overlay. The <video> keeps its own poster underneath, so this layer
+   only carries the affordance — no second copy of the image to load. */
+.video-cover {
+  position: absolute; inset: 0;
+  border: 0; padding: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.25s var(--ease-mech), background 0.25s var(--ease-mech);
+}
+/* Darkens toward the top so the badge stays readable over any poster frame,
+   and lifts the play button off a busy still. */
+.video-cover::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(12, 11, 9, 0.55) 0%, rgba(12, 11, 9, 0.12) 42%, rgba(12, 11, 9, 0.35) 100%);
+  transition: opacity 0.25s var(--ease-mech);
+}
+.video-play {
+  position: relative;
+  width: 66px; height: 66px; border-radius: 50%;
+  background: var(--yellow); color: var(--text-dark);
+  display: flex; align-items: center; justify-content: center;
+  padding-left: 4px; /* optical centring of the triangle */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s var(--ease-mech), background 0.2s var(--ease-mech);
+}
+.video-cover:hover .video-play,
+.video-cover:focus-visible .video-play {
+  transform: scale(1.09);
+  background: var(--yellow-hover);
+}
+.video-cover:hover::before { opacity: 0.75; }
+.video-badge {
+  position: absolute; top: 12px; left: 12px;
+  z-index: 2;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--yellow);
+  color: var(--text-dark);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 4px;
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease-mech);
+}
+/* A live red dot: reads as "recorded testimony" rather than decoration. */
+.video-badge::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--error-red);
+}
+/* Once it plays, the overlay would only be in the way of the native controls. */
+.video-wrap.is-playing .video-cover { opacity: 0; pointer-events: none; }
+.video-wrap.is-playing .video-badge { opacity: 0; }
+.testimonial-by {
+  font-size: 12.5px; line-height: 1.5; color: var(--text-muted-dark);
+  padding: 2px 4px 4px;
+}
+.chips-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--text-muted-light);
+  text-transform: uppercase; margin: 22px 0 10px;
+}
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 9px; }
+.chips li {
+  font-size: 13px; font-weight: 600; background: var(--card-white);
+  border: 1px solid var(--border-light); color: #3A3A3A;
+  padding: 8px 15px; border-radius: 20px;
+}
+
+/* ============ S9 · FAQ ============ */
+.faq-list { max-width: 920px; display: flex; flex-direction: column; gap: 10px; }
+.faq-item { border: 1px solid var(--border-light); border-radius: 10px; overflow: hidden; background: var(--bg-cream); }
+.faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding: 15px 18px; background: none; border: none; cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.3;
+  color: var(--text-dark); text-align: left;
+}
+.faq-q .icon { color: var(--ada-blue); font-size: 18px; transition: transform 0.2s var(--ease-mech); }
+.faq-q[aria-expanded="true"] .icon { transform: rotate(180deg); }
+.faq-a {
+  padding: 14px 18px; border-top: 1px solid var(--border-light);
+  background: var(--card-white);
+  font-size: 13.5px; line-height: 1.55; color: var(--text-muted-light);
+}
+.faq-a[hidden] { display: none; }
+
+/* ============ S10 · FINAL CTA ============ */
+.final-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
+.final-copy h2 { font-size: clamp(26px, 5vw, 34px); font-weight: 900; line-height: 1.12; margin-bottom: 14px; }
+.final-copy > p { font-size: 15px; color: #C8C5BD; margin-bottom: 22px; max-width: 52ch; }
+.final-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+.final-points li { display: flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; color: #F2F0EA; }
+.final-points .icon { color: var(--yellow); font-size: 18px; }
+.final-points a { color: #F2F0EA; }
+.final-card { background: var(--card-white); border-radius: var(--radius); padding: 24px; }
+/* The loader owns the frame's height (it listens for wlpquote:resize), so
+   nothing here may constrain it. */
+.final-embed .wlpquote-here iframe { width: 100%; display: block; border: 0; }
+
+/* ============ S11 · FOOTER ============ */
+/* Dark, for the same reason the header is: the only logo asset carries a white
+   wordmark on transparent, so on the old cream footer 60% of the lockup was
+   invisible. */
+.site-footer { background: var(--bg-dark); padding: 34px 0; border-top: 1px solid var(--border-dark); }
+.footer-top { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 18px; }
+.footer-brand { display: flex; align-items: center; gap: 16px; }
+.footer-logo { height: 40px; width: auto; }
+.footer-phone { display: flex; align-items: center; gap: 7px; color: var(--card-white); text-decoration: none; }
+.footer-phone span { font-family: var(--font-display); font-weight: 800; font-size: 21px; }
+.footer-phone:hover { color: var(--yellow); }
+.footer-tagline { font-size: 12px; font-weight: 500; color: var(--text-muted-dark); }
+.footer-license { font-size: 12px; line-height: 1.7; font-weight: 600; color: var(--text-muted-dark); }
+.coverage { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 9px; }
+.coverage li {
+  display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+  background: var(--bg-dark-2); border: 1px solid var(--border-dark);
+  color: #D6D3CB; padding: 7px 13px; border-radius: 20px;
+}
+.coverage .icon { color: var(--ada-blue-light); font-size: 13px; }
+.footer-links {
+  list-style: none; margin: 0 0 14px; padding: 11px 0;
+  display: flex; gap: 16px; flex-wrap: wrap;
+  font-size: 12px; font-weight: 600;
+  border-top: 1px solid var(--border-dark); border-bottom: 1px solid var(--border-dark);
+}
+.footer-links a { color: var(--ada-blue-light); cursor: pointer; }
+.footer-links a:hover { color: var(--yellow); }
+.footer-legal { font-size: 11px; line-height: 1.55; color: #94908A; max-width: 120ch; }
+
+/* ============ MOBILE STICKY BAR ============ */
+.sticky-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+  background: var(--card-white); border-top: 1.5px solid var(--text-dark);
+  padding: 8px; display: flex; gap: 8px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+}
+.sticky-bar .btn { flex: 1; font-size: 13px; padding: 12px 10px; min-height: 46px; }
+body { padding-bottom: 72px; }
+
+/* ============ BREAKPOINTS ============ */
+
+/* --- Tablet · 8 col, hero 6/6, cards 2 col --- */
+@media (min-width: 768px) {
+  .hero { padding-top: 44px; }
+  .hero-inner {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "copy  form"
+      "media form"
+      "trust trust";
+    gap: 26px 26px;
+  }
+  .hero-trust ul { grid-template-columns: repeat(3, 1fr); }
+  .lead-card { --seal: 124px; }
+  .risk-grid { grid-template-columns: 1fr 1fr; }
+  .cond-grid { grid-template-columns: 1fr 1fr; }
+  .why-cards { grid-template-columns: 1fr 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .proof-grid { grid-template-columns: 1.15fr 1fr; }
+}
+
+/* --- Desktop · container 1200, hero 7/5, 3-col cards --- */
+@media (min-width: 1080px) {
+  /* Bottom padding returns here because the trust band leaves the hero at
+     this breakpoint — below 1080 the in-hero band sits flush against the
+     hero's edge and no padding is wanted.
+     min-height fills whatever is left of the first screen so the sticky trust
+     strip below only shows once the visitor scrolls. Tied to the viewport
+     rather than a fixed padding bump: how much room is left depends on the
+     screen's height, so a constant would clear the fold on one monitor and
+     not on the next. Falls back to no-op if the JS vars never land. */
+  .hero {
+    /* Graded only here: the copy stops at ~55% of the width and the white form
+       card covers the rest, so the scrim can ease off to the right and let the
+       photo show without ever reaching the type. */
+    background-image:
+      linear-gradient(100deg,
+        rgba(20, 18, 14, 0.95) 0%,
+        rgba(20, 18, 14, 0.92) 38%,
+        rgba(20, 18, 14, 0.78) 68%,
+        rgba(20, 18, 14, 0.58) 100%),
+      url("images/ada-hero-bg.webp");
+    padding-top: 56px;
+    padding-bottom: 44px;
+    min-height: calc(100vh - var(--header-h, 0px) - var(--utility-h, 0px));
+    /* Centred, not top-aligned: on a tall screen the min-height above leaves
+       a few hundred px of slack, and pinning the content to the top dumps all
+       of it under the photo. Centring splits it above and below. */
+    display: flex;
+    align-items: center;
+  }
+  .hero-inner { width: 100%; }
+  .hero-inner {
+    grid-template-columns: 7fr 5fr;
+    grid-template-areas:
+      "copy  form"
+      "media form";
+    /* The form card spans both rows. With two `auto` rows the browser splits
+       the card's surplus height evenly between them, which dumps dead space
+       under the bullets AND leaves the photo short of the card's bottom edge.
+       Row 1 pinned to its content + row 2 taking the remainder sends all the
+       slack to the photo, which fills it, so both columns end flush.
+       The floor is 200px, not the photo's natural 366px: an `auto`-ish floor
+       lets the LEFT column set the grid height whenever the card is shorter
+       than ~700px, and the photo then overshoots the card by the difference.
+       A low floor keeps the card in charge; it only binds on a card under
+       ~530px, which this 3-field form never is. */
+    grid-template-rows: auto minmax(200px, 1fr);
+    /* Rows split from columns: 30px here pairs with the lede's 30px bottom
+       margin so the bullets sit centred between the paragraph and the photo
+       instead of hugging the paragraph (was 16 above / 44 below). The pair
+       still totals 60px, so the photo doesn't move. */
+    column-gap: 44px;
+    row-gap: 30px;
+  }
+  .hero-lede { margin-bottom: 30px; }
+  /* Single row across the 7-col hero column. `flex: 1 1 0` splits the width
+     evenly instead of capping each label at a fixed ch value — the three
+     labels differ enough in length that a shared cap wraps the longest to
+     three ragged lines. */
+  .hero-benefits { flex-direction: row; flex-wrap: nowrap; gap: 18px; }
+  .hero-benefits li { flex: 1 1 0; min-width: 0; align-items: flex-start; }
+  .lead-card { --seal: 144px; }
+  .warranty-seal { top: -28px; right: 18px; }
+  /* Height comes from the grid row, which follows the form card. Below this
+     breakpoint the slot is narrower than the photo, so cover crops the sides
+     and a taller frame would only zoom in — hence the fixed 230px there. */
+  .hero-media { height: auto; min-height: 200px; }
+  /* Swap instances: the in-hero band goes, the sticky one takes over. */
+  .hero-trust { display: none; }
+  .trust-sticky {
+    display: block;
+    position: sticky;
+    /* --header-h is published by JS from the header's real height; the
+       fallback only matters for the instant before the script runs. */
+    top: var(--header-h, 82px);
+    z-index: 40; /* under the header (50), over the sections scrolling beneath */
+    padding: 18px max(20px, calc(50vw - 600px));
+  }
+  .trust-sticky ul {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px; flex-wrap: wrap;
+  }
+  .section { padding: 56px 0; }
+  .cond-grid { grid-template-columns: repeat(3, 1fr); }
+  .why-grid { grid-template-columns: 1.5fr 1fr; gap: 44px; }
+  .process-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .process-step { flex-direction: column; gap: 10px; align-items: stretch; }
+  .step-rule { width: 100%; }
+  .step-rule .line { display: block; flex: 1; height: 2px; background: var(--border-light); }
+  .final-grid { grid-template-columns: 1fr 1.1fr; gap: 44px; }
+  .sticky-bar { display: none; }
+  body { padding-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .risk-card ul { grid-template-columns: 1fr; }
+  .header-logo { height: 34px; }
+  .lead-card { padding: 18px; }
+}
+
+/* ============ LIGHTBOX (S5 condition photos) ============
+   Native <dialog>: the browser supplies modality, the focus trap, Esc and the
+   backdrop. Reimplementing those on a div is where custom modals go wrong. */
+.lightbox {
+  border: none;
+  padding: 0;
+  background: transparent;
+  max-width: min(1100px, 94vw);
+  max-height: 92vh;
+  overflow: visible;
+}
+.lightbox::backdrop {
+  background: rgba(12, 11, 9, 0.88);
+  backdrop-filter: blur(3px);
+}
+.lightbox img {
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  background: #000;
+}
+.lightbox-caption {
+  color: #F2F0EA;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 4px 0;
+}
+.lightbox-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--yellow);
+  color: var(--text-dark);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+.lightbox-close:hover { background: var(--yellow-hover); }
+@media (max-width: 560px) {
+  .lightbox-close { top: -10px; right: -6px; }
+}
+
+/* ============ LEGAL MODAL (S11) ============
+   Native <dialog> again: modality, focus trap, Esc and backdrop for free. */
+.legal-modal {
+  border: none;
+  padding: 0;
+  border-radius: 12px;
+  width: min(760px, 94vw);
+  max-height: 88vh;
+  background: var(--card-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.legal-modal:not([open]) { display: none; }
+.legal-modal::backdrop { background: rgba(12, 11, 9, 0.86); backdrop-filter: blur(3px); }
+.legal-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-light);
+  flex: none;
+}
+.legal-head h2 { font-size: 19px; font-weight: 800; }
+.legal-close {
+  width: 40px; height: 40px; flex: none;
+  border: none; border-radius: 50%;
+  background: var(--gray-concrete); color: var(--text-dark);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.legal-close:hover { background: var(--yellow); }
+/* The body scrolls, not the dialog: the header stays put on long documents. */
+.legal-body {
+  overflow-y: auto;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+/* The fragments arrive with every attribute stripped, so this styles bare tags
+   and depends on no class name from the source page. They are normalised to
+   start at h3 (the dialog's own title is the h2), with h4 for subsections. */
+.legal-body h3 {
+  font-size: 16px; font-weight: 800; margin: 24px 0 8px; color: var(--text-dark);
+}
+.legal-body h4 {
+  font-size: 13.5px; font-weight: 800; margin: 16px 0 6px; color: var(--text-dark);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.legal-body > :first-child { margin-top: 0; }
+.legal-body p { margin: 0 0 12px; }
+.legal-body ul, .legal-body ol { margin: 0 0 14px; padding-left: 20px; }
+.legal-body li { margin-bottom: 6px; }
+.legal-body a { color: var(--ada-blue); text-decoration: underline; }
+.legal-body strong { color: var(--text-dark); }
+.legal-body img, .legal-body table { max-width: 100%; }
+.legal-loading { color: var(--text-muted-light); font-family: var(--font-mono); font-size: 12px; }
+
+/* ============ MOBILE REFINEMENTS ============ */
+@media (max-width: 767px) {
+  /* S1 — two badges only: the utility bar was eating fold before the H1 even
+     started. The dropped two are repeated in the footer and the trust strip. */
+  .utility-bar li:nth-child(1),
+  .utility-bar li:nth-child(3) { display: none; }
+  .utility-bar ul { grid-template-columns: auto auto; }
+
+  /* S2 — the hero photo is the first thing that can go: the form sits above it
+     and the background is already a jobsite shot. */
+  .hero-media { display: none; }
+  .hero-inner { grid-template-areas: "copy" "form" "trust"; }
+
+  /* S6 — the seal was ~340px of pure scroll mid-section. Small, and moved to
+     the top so it reads as the section's mark rather than a slab. */
+  .pledge { order: -1; }
+  .pledge img { max-width: 132px; }
+}

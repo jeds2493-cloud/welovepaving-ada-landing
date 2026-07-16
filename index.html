@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADA Accessibility Upgrades for Northern California Commercial Properties | We Love Paving</title>
+<meta name="description" content="We help commercial property owners and managers identify and correct ADA accessibility issues involving parking spaces, ramps, signage, markings and surfaces. Request a property review.">
+<!-- Paid-traffic landing: kept out of the index so it can't cannibalize
+     /services/ada-upgrades.html for the same organic queries. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.welovepaving.com/lp/ada-accessibility-upgrades/">
+<meta name="theme-color" content="#14120E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="We Love Paving">
+<meta property="og:title" content="ADA Accessibility Upgrades for Northern California Commercial Properties">
+<meta property="og:description" content="Identify and correct accessibility issues involving parking spaces, ramps, signage, pavement markings, accessible routes and surface conditions.">
+<meta property="og:url" content="https://www.welovepaving.com/lp/ada-accessibility-upgrades/">
+<meta property="og:image" content="https://www.welovepaving.com/images/ada-landing-hero-ikea.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ada-landing.css">
+<!-- media= matches the breakpoint that shows .hero-media. Without it this
+     preload fires on mobile too, pulling 118KB at high priority for a photo
+     that is display:none there — on the paid traffic that can least afford it. -->
+<link rel="preload" as="image" href="images/ada-landing-hero-ikea.webp" media="(min-width: 768px)">
+</head>
+<body>
+
+<!-- Icon sprite. Inlined rather than pulled from a CDN: this page is the
+     paid-traffic entry point and every blocking request costs conversions. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-badge-check" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-file-check" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-phone-call" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M14.05 2a9 9 0 0 1 8 7.94"/><path d="M14.05 6A5 5 0 0 1 18 10"/></symbol>
+    <symbol id="i-clipboard-check" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-alert-triangle" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-accessibility" viewBox="0 0 24 24"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></symbol>
+    <symbol id="i-parking" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></symbol>
+    <symbol id="i-unfold-h" viewBox="0 0 24 24"><path d="M16 12h6"/><path d="M8 12H2"/><path d="M12 2v2"/><path d="M12 8v2"/><path d="M12 14v2"/><path d="M12 20v2"/><path d="m19 15 3-3-3-3"/><path d="m5 9-3 3 3 3"/></symbol>
+    <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+    <symbol id="i-signpost" viewBox="0 0 24 24"><path d="M12 13v8"/><path d="M12 3v3"/><path d="M18 6a2 2 0 0 1 1.387.562l2.307 2.22a1 1 0 0 1 0 1.436l-2.307 2.22A2 2 0 0 1 18 13H6a2 2 0 0 1-1.387-.562l-2.307-2.22a1 1 0 0 1 0-1.436l2.307-2.22A2 2 0 0 1 6 6z"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 9h10"/><path d="M7 13h6"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+  </defs>
+</svg>
+
+<a href="#hero-form" class="sr-only">Skip to the property review form</a>
+
+<!-- ===== S1 · UTILITY BAR ===== -->
+<div class="utility-bar">
+  <ul class="container">
+    <li><svg class="icon" aria-hidden="true"><use href="#i-badge-check"/></svg>California Licensed &amp; Insured</li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-file-check"/></svg>Written Warranty</li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>Northern California Service</li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>2-Hour Response Time</li>
+  </ul>
+</div>
+
+<!-- ===== S1 · HEADER (sticky, no navigation by design) ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <a href="https://www.welovepaving.com/" aria-label="We Love Paving home">
+        <img src="images/wlp-logo.png" alt="We Love Paving" class="header-logo" width="132" height="42">
+      </a>
+    </div>
+    <!-- Hidden wherever the bottom sticky bar is shown (<1080px), which
+         already carries both actions. -->
+    <div class="header-actions">
+      <a href="tel:+18882730077" class="header-phone" data-track-call="header">
+        <span class="header-phone-label">Talk to an ADA Paving Advisor</span>
+        <span class="header-phone-num">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>(888) 273-0077
+        </span>
+      </a>
+      <!-- Revealed by JS only once the hero form has scrolled out of view —
+           while the form is on screen this button would just point at it. -->
+      <a href="#hero-form" class="btn btn-primary btn-sm header-cta">Request a Property Review</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== S2 · HERO + SHORT FORM · S3 · TRUST STRIP ===== -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <div class="hero-copy">
+      <p class="eyebrow">Northern California ADA Accessibility Upgrades</p>
+      <h1>Fix ADA Accessibility Issues Before They Become More Costly.</h1>
+      <p class="hero-lede">We help commercial property owners and managers identify and correct accessibility issues involving parking spaces, ramps, signage, pavement markings, accessible routes and surface conditions.</p>
+
+      <ul class="hero-benefits">
+        <li><span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-file-text"/></svg></span>Written project scope &amp; video proposal</li>
+        <li><span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span>Commercial property experience</li>
+        <li><span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>Licensed &amp; insured contractor</li>
+      </ul>
+    </div>
+
+
+    <!-- S2 · Short form — 5 fields, above the fold, no budget/size/uploads -->
+    <div class="hero-form-wrap">
+      <div class="lead-card" id="hero-form">
+        <div class="warranty-seal" aria-hidden="true">
+          <span class="s1">UP TO</span><span class="s2">15-YEAR</span><span class="s3">WRITTEN WARRANTY</span><span class="s4">Qualifying · Terms Apply</span>
+        </div>
+
+        <h2>Request an ADA Property Review</h2>
+        <p class="lead-card-sub">Share your details to discuss your ADA needs.</p>
+
+        <!-- Official WLP form library embed. loader.js (before </body>) swaps
+             this div for the quote.welovepaving.com iframe, forwards utm_*/
+             gclid/fbclid/msclkid plus first-touch attribution, auto-sizes via
+             a wlpquote:resize postMessage, and redirects to the server-chosen
+             thank-you on submit. sem3 => form_source=sem_landing, which is the
+             prefix that fires the Google Ads conversion — don't override it. -->
+        <!-- The view event is anchored on this wrapper, not on .wlpquote-here
+             itself, which the loader may replace with the iframe. Start/submit
+             stay with the loader — re-firing them here would double-count the
+             Google Ads conversion. -->
+        <div class="hero-embed" data-track-view="hero_form_view">
+          <div class="wlpquote-here" data-variant="sem3" data-instance="hero"></div>
+        </div>
+
+        <p class="form-note">No obligation. Northern California commercial properties only.</p>
+      </div>
+    </div>
+
+    <!-- S2 · Project photo — deliberately after the form, never before it -->
+    <div class="hero-media">
+      <!-- <picture> purely to keep the 118KB photo off mobile, where .hero-media is
+           display:none. Neither display:none nor loading=lazy stops an <img src>
+           from downloading (a hidden image has no box to intersect, so Chrome just
+           fetches it) — only an unmatched <source> does. Under 768px no source
+           matches, so the img falls back to the inline blank and costs 0 bytes. -->
+      <picture>
+        <source media="(min-width: 768px)" srcset="images/ada-landing-hero-ikea.webp">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='788'%3E%3C/svg%3E" alt="Aerial view of a We Love Paving crew installing accessible parking spaces at an IKEA store, with blue-striped ADA stalls, marked access aisles and vertical accessibility signage" width="1400" height="788" fetchpriority="high" data-track-view="project_photo_view">
+      </picture>
+    </div>
+
+    <!-- S3 · Immediate trust strip — the in-hero instance, shown below 1080.
+         It can't be the sticky one: it's the last row of the hero grid, so its
+         containing block ends exactly where it does and sticky is a no-op.
+         The desktop copy lives just after </section>. Only one is ever
+         rendered (display:none), which keeps the other out of the
+         accessibility tree too — no aria-hidden needed. -->
+    <div class="hero-trust">
+      <ul>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>
+          <span><span class="trust-label">CSLB License</span><span class="trust-value">#1049649</span></span>
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          <span><span class="trust-label">Google Rating</span><span class="trust-value">4.9 ★ · 67+ reviews</span></span>
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-file-check"/></svg>
+          <span><span class="trust-label">Written Warranty</span><span class="trust-value">Documented terms</span></span>
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>
+          <span><span class="trust-label">Commercial Experience</span><span class="trust-value">Property teams</span></span>
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+          <span><span class="trust-label">Response Time</span><span class="trust-value">Under 2 hours</span></span>
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+          <span><span class="trust-label">ADA Upgrades Completed</span><span class="trust-value">500+ Projects</span></span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- S3 · Desktop copy of the trust strip. Outside the hero grid so it can
+     stick: it scrolls up, meets the sticky header and parks under it for the
+     rest of the page. Hidden below 1080, where the in-hero instance runs
+     instead and the bottom sticky bar already owns that screen space. -->
+<div class="trust-sticky">
+  <ul>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>
+      <span><span class="trust-label">CSLB License</span><span class="trust-value">#1049649</span></span>
+    </li>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+      <span><span class="trust-label">Google Rating</span><span class="trust-value">4.9 ★ · 67+ reviews</span></span>
+    </li>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-file-check"/></svg>
+      <span><span class="trust-label">Written Warranty</span><span class="trust-value">Documented terms</span></span>
+    </li>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>
+      <span><span class="trust-label">Commercial Experience</span><span class="trust-value">Property teams</span></span>
+    </li>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+      <span><span class="trust-label">Response Time</span><span class="trust-value">Under 2 hours</span></span>
+    </li>
+    <li>
+      <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+      <span><span class="trust-label">ADA Upgrades Completed</span><span class="trust-value">500+ Projects</span></span>
+    </li>
+  </ul>
+</div>
+
+<!-- ===== S4 · COMPACT RISK BAND ===== -->
+<section class="section">
+  <div class="container">
+    <h2>Whether You Are Responding to an Issue or Planning Ahead, Clarity Comes First.</h2>
+    <p class="section-lede">Accessibility concerns can affect cost, scheduling and property operations when the required scope remains unclear — and the longer it stays that way, the harder it becomes to control cost, scope and timing.</p>
+
+    <div class="risk-grid">
+      <div class="risk-card risk-card--reactive">
+        <div class="risk-card-inner">
+          <span class="risk-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert-triangle"/></svg></span>
+          <div class="risk-body">
+            <h3>Already Facing an Issue?</h3>
+            <ul>
+              <li>Complaint or claim</li>
+              <li>Inspection notice</li>
+              <li>Required correction</li>
+              <li>Tenant concern</li>
+            </ul>
+          </div>
+        </div>
+        <!-- The action lives inside the shell's tinted footer, mirroring the
+             reference. Only on the reactive card: this is the urgent path, and
+             a second copy under the grid was the redundancy being removed. -->
+        <a href="tel:+18882730077" class="risk-cta" data-track-call="risk_band">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone-call"/></svg>
+          <span>Urgent? Call <strong>(888) 273-0077</strong></span>
+          <svg class="icon risk-cta-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+      <div class="risk-card risk-card--planned">
+        <div class="risk-card-inner">
+          <span class="risk-icon"><svg class="icon" aria-hidden="true"><use href="#i-accessibility"/></svg></span>
+          <div class="risk-body">
+            <h3>Planning Ahead?</h3>
+            <ul>
+              <li>Parking lot renovation</li>
+              <li>Property acquisition</li>
+              <li>Restriping project</li>
+              <li>Preventive maintenance</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Same footer slot, but routed to the form: planning is not a phone
+             call, it's a request. Keeps one action per card, never two. -->
+        <a href="#hero-form" class="risk-cta risk-cta--planned">
+          <!-- clipboard, not the card's own calendar: it echoes the header's
+               "Request a Property Review" button, which is where this goes. -->
+          <svg class="icon" aria-hidden="true"><use href="#i-clipboard-check"/></svg>
+          <span>No rush, we help you before it becomes urgent.</span>
+          <svg class="icon risk-cta-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S5 · ADA CONDITIONS ===== -->
+<section class="section section--cream">
+  <div class="container">
+    <h2>What May Need to Be Evaluated or Corrected?</h2>
+    <p class="section-lede">Accessibility conditions can involve multiple areas of the parking lot and path of travel — we cover all of them.</p>
+
+    <div class="cond-grid">
+
+      <article class="cond-card" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-parking"/></svg>PARKING</span>
+          <h3>Accessible Parking Spaces</h3>
+          <p>Configuration, dimensions, location and van-accessible requirements.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/ada-upgrades-4.webp" alt="Accessible parking space marked with a blue-bordered accessibility symbol next to a striped access aisle" loading="lazy" width="840" height="472">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+      <article class="cond-card" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-unfold-h"/></svg>PARKING &amp; AISLES</span>
+          <h3>Access Aisles &amp; Transfer Zones</h3>
+          <p>Width, pavement markings, obstructions and relationship to parking spaces.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/ada-upgrades-3.webp" alt="Striped access aisle marked no parking between two accessible spaces, with a yellow truncated dome detectable warning surface at the curb" loading="lazy" width="1920" height="1080">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+      <article class="cond-card" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-trending-up"/></svg>PATH OF TRAVEL</span>
+          <h3>Ramps &amp; Curb Transitions</h3>
+          <p>Ramp condition, transitions, detectable warnings and pedestrian connections.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/ada-upgrades-2.webp" alt="Accessible ramp with black handrail leading to a storefront entrance" loading="lazy" width="1920" height="1080">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+      <article class="cond-card cond-card--signage" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-signpost"/></svg>SIGNAGE</span>
+          <h3>ADA Signage</h3>
+          <p>Vertical identification, visibility, placement and van-accessible signs.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/ada-signage-installation.webp" alt="We Love Paving crew member installing a vertical accessible parking sign on its post at a commercial storefront" loading="lazy" width="900" height="506">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+      <article class="cond-card" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-ruler"/></svg>MARKINGS</span>
+          <h3>Striping &amp; Pavement Markings</h3>
+          <p>Accessible symbols, access aisles, no-parking zones and directional markings.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/ada-retail-1.webp" alt="Crew applying fresh accessibility symbols and blue striping to parking spaces at a commercial property" loading="lazy" width="900" height="506">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+      <article class="cond-card" data-cond-card>
+        <div class="cond-body">
+          <span class="cond-tag"><svg class="icon" aria-hidden="true"><use href="#i-activity"/></svg>SURFACES</span>
+          <h3>Slopes &amp; Surfaces</h3>
+          <p>Cross slopes, running slopes, cracks, settlement and uneven transitions.</p>
+        </div>
+        <div class="cond-media">
+          <img src="images/parking-lot-ada-2.webp" alt="Aerial view of a resurfaced commercial parking lot with accessible spaces marked at one end" loading="lazy" width="900" height="506">
+        </div>
+        <div class="cond-foot">
+          <a href="#hero-form" class="cond-link">REVIEW THIS CONDITION <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="cond-disclaimer">Every property must be reviewed individually. The required corrective scope depends on existing site conditions, applicable standards and project context.</p>
+  </div>
+</section>
+
+<!-- ===== S6 · WHY WLP + PANDA PLEDGE ===== -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="why-grid">
+      <div>
+        <h2>Why Commercial Property Teams Choose We Love Paving</h2>
+        <p class="section-lede">Clear expectations, coordinated work and written protection help reduce uncertainty throughout the project.</p>
+        <div class="why-cards">
+          <article class="why-card">
+            <span class="why-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>Written Protection</h3>
+            <p>Warranty terms and qualifying scopes are documented.</p>
+          </article>
+          <article class="why-card">
+            <span class="why-icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+            <h3>One Coordinated Scope</h3>
+            <p>Paving, concrete, striping and signage coordinated through one project team.</p>
+          </article>
+          <article class="why-card">
+            <span class="why-icon"><svg class="icon" aria-hidden="true"><use href="#i-message"/></svg></span>
+            <h3>Clear Communication</h3>
+            <p>Clients receive defined expectations, updates and next steps.</p>
+          </article>
+          <article class="why-card">
+            <span class="why-icon"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span>
+            <h3>Commercial Experience</h3>
+            <p>Parking lots, HOA communities, retail properties and high-traffic environments.</p>
+          </article>
+        </div>
+      </div>
+
+      <!-- The official seal replaces the built card. Keeps #panda-pledge so
+           the view event still fires when the pledge reaches the screen. -->
+      <aside class="pledge" id="panda-pledge">
+        <img src="images/panda-pledge-badge.webp"
+             alt="The Panda Pledge seal — We Love Paving, 15 year pothole-free guarantee"
+             width="760" height="805" loading="lazy">
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S7 · PROCESS ===== -->
+<section class="section">
+  <div class="container">
+    <h2 style="margin-bottom:24px">A Clear Process From Review to Completed Work</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-rule"><span class="step-num">1</span><span class="line"></span></div>
+        <div>
+          <h3>Talk to Us First — No Commitment</h3>
+          <p>Tell us the property and the concern. No obligation, no pressure, no cost.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-rule"><span class="step-num">2</span><span class="line"></span></div>
+        <div>
+          <h3>Free Audit</h3>
+          <p>WLP reviews the available information and site conditions, remote or in site.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-rule"><span class="step-num">3</span><span class="line"></span></div>
+        <div>
+          <h3>Bid, Sitemap &amp; Video Proposal</h3>
+          <p>Receive a clear description of the proposed work.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-rule"><span class="step-num">4</span><span class="line"></span></div>
+        <div>
+          <h3>Scheduling, Execution &amp; Documentation</h3>
+          <p>Work is coordinated, completed and documented, with applicable protection.</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:26px">
+      <a href="#hero-form" class="btn btn-primary">Start My Property Review <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+    </p>
+  </div>
+</section>
+
+<!-- ===== S8 · PROOF + TESTIMONIAL + PROPERTY TYPES ===== -->
+<section class="section section--cream">
+  <div class="container">
+    <h2 style="margin-bottom:24px">Real ADA Upgrade Work. Clearly Documented.</h2>
+
+    <div class="proof-grid">
+      <div class="proof-card">
+        <!-- Before/after wipe. The "after" is clipped to the handle position,
+             so both frames must be identical in size and framing — otherwise
+             dragging reads as two different photos, not one change. -->
+        <div class="ba" data-ba>
+          <img class="ba-img ba-before" src="images/ada-proof-before.webp"
+               alt="Accessible parking stalls at the property before the ADA upgrade"
+               width="1200" height="675" loading="lazy" draggable="false">
+          <div class="ba-after-clip">
+            <img class="ba-img" src="images/ada-proof-after.webp"
+                 alt="The same area after the ADA upgrade"
+                 width="1200" height="675" loading="lazy" draggable="false">
+          </div>
+          <span class="ba-tag ba-tag--before">Before</span>
+          <span class="ba-tag ba-tag--after">After</span>
+          <!-- The real control: a range input, so it is keyboard-operable and
+               announced without re-implementing any of that on a div. -->
+          <input class="ba-range" type="range" min="0" max="100" value="50" step="0.1"
+                 aria-label="Reveal the before and after photos">
+          <span class="ba-handle" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/>
+            </svg>
+          </span>
+        </div>
+        <div class="proof-specs">
+          <b>Property Type</b><span>Commercial</span>
+          <b>Location</b><span>Palo Alto, CA</span>
+          <b>Benefits Obtained</b><span>Total Regulatory Compliance · Pedestrian Flow Optimization · Infrastructure Durability</span>
+          <b>Primary Material</b><span>Traffic Grade Paint &amp; Concrete Surface Treatment</span>
+        </div>
+      </div>
+
+      <!-- Self-hosted, no YouTube: keeps the landing free of third-party
+           script and cookies entirely. preload="none" + a poster means the
+           4MB file costs nothing until the visitor asks for it. -->
+      <figure class="testimonial">
+        <div class="video-wrap" data-video>
+          <!-- No `controls` until play: the native bar over a poster reads as
+               chrome, not as an invitation. JS turns it on with the first
+               click, so from then on the browser owns playback. -->
+          <video class="video-local" preload="none" playsinline
+                 poster="video/testimonial-poster.webp"
+                 width="400" height="224">
+            <source src="video/doctor-medical-office-testimonial.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="video-cover"
+                  aria-label="Play video testimonial: Doctor Medical Office">
+            <span class="video-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7Z"/></svg>
+            </span>
+          </button>
+          <span class="video-badge">Testimonial</span>
+        </div>
+        <figcaption class="testimonial-by">Doctor Medical Office · Healthcare property</figcaption>
+      </figure>
+    </div>
+
+    <p class="chips-label">Served property types</p>
+    <ul class="chips">
+      <li>Retail</li><li>HOA</li><li>Office</li><li>Multifamily</li>
+      <li>Healthcare</li><li>Industrial</li><li>Hospitality</li>
+      <li>School &amp; University</li><li>High-Traffic Properties</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== S10 · FINAL CTA + COMPACT FORM ===== -->
+<section class="section section--darker" id="final-cta">
+  <div class="container">
+    <div class="final-grid">
+      <div class="final-copy">
+        <h2>Tell Us About Your Property</h2>
+        <p>Share the basics. A WLP project advisor will contact you to confirm the property conditions, scope and next steps.</p>
+        <ul class="final-points">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check-circle"/></svg>No obligation. Northern California commercial properties only.</li>
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+            Prefer to talk now? Call an ADA Project Advisor ·
+            <a href="tel:+18882730077" data-track-call="final_cta">(888) 273-0077</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="final-card">
+        <!-- Official WLP form library embed, long SEM variant (5 fields +
+             step 2). loader.js swaps this div for the iframe and forwards
+             attribution. full => form_source=sem_landing_detail, which is
+             still an sem_* prefix and still fires the Google Ads conversion. -->
+        <div class="final-embed" data-track-view="final_form_view">
+          <div class="wlpquote-here" data-variant="full" data-instance="detail"></div>
+        </div>
+
+        <p class="form-legal">No obligation. Northern California commercial properties only. By submitting, you agree WLP may contact you regarding your request. WLP is not a Certified Access Specialist and does not provide legal compliance certification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S9 · CONDENSED FAQ ===== -->
+<section class="section">
+  <div class="container">
+    <h2 style="margin-bottom:22px">Common Questions About ADA Accessibility Projects</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <h3>
+          <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-1">
+            Can WLP help if we already received a complaint or inspection notice?
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+        </h3>
+        <div class="faq-a" id="faq-1" hidden>Yes. WLP can review the available project information, assess relevant site conditions and prepare a corrective construction scope. WLP does not provide legal opinions or compliance certification.</div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-2">
+            What property conditions can WLP address?
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+        </h3>
+        <div class="faq-a" id="faq-2" hidden>Potential project scopes may involve accessible parking spaces, access aisles, ramps, signage, striping, accessible routes, slopes, pavement surfaces and concrete transitions.</div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-3">
+            How quickly will WLP respond, and can the project be phased?
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+        </h3>
+        <div class="faq-a" id="faq-3" hidden>A paving advisor will respond according to WLP’s confirmed service-level commitment. When site conditions and scope allow, work may be coordinated in phases to reduce disruption.</div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-4">
+            Is WLP a Certified Access Specialist?
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+        </h3>
+        <div class="faq-a" id="faq-4" hidden>We Love Paving provides construction assessments, measurements, proposals and accessibility improvement services. We Love Paving is not a Certified Access Specialist and does not provide legal opinions, CASp certification or legal compliance evaluations.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== S11 · LEGAL FOOTER + COVERAGE ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="images/wlp-logo.png" alt="We Love Paving" class="footer-logo" width="118" height="40" loading="lazy">
+        <div>
+          <a href="tel:+18882730077" class="footer-phone" data-track-call="footer">
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span>(888) 273-0077</span>
+          </a>
+          <p class="footer-tagline">Northern California ADA Accessibility Services</p>
+        </div>
+      </div>
+      <p class="footer-license">
+        CSLB License: #1049649<br>
+        CA: 571708
+      </p>
+    </div>
+
+    <ul class="coverage">
+      <li><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>Northern California</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>Bay Area</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>Sacramento Region</li>
+    </ul>
+
+    <!-- href = the live page, so the link still works with JS off and middle-click
+         behaves. data-legal-src = a flattened copy of that page's text, which is
+         what the modal actually shows: the live pages are GenerateBlocks builds
+         whose copy sits inside collapsed accordions, so injecting them here would
+         render dead headings that open nothing. Regenerate the copies with
+         scratchpad/extract-legal.js whenever Legal edits a page. -->
+    <ul class="footer-links">
+      <li><a href="https://www.welovepaving.com/privacy-policy/" data-legal="Privacy Policy" data-legal-src="legal/privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="https://www.welovepaving.com/terms-and-conditions/" data-legal="Terms &amp; Conditions" data-legal-src="legal/terms-and-conditions.html">Terms &amp; Conditions</a></li>
+      <li><a href="https://www.welovepaving.com/guarantees-and-warranty/" data-legal="Panda Pledge Disclaimer" data-legal-src="legal/panda-pledge.html">Panda Pledge Disclaimer</a></li>
+    </ul>
+
+    <p class="footer-legal">We Love Paving provides construction assessments, measurements, proposals and accessibility improvement services based on project conditions and applicable standards. We Love Paving is not a Certified Access Specialist and does not provide legal opinions, CASp certification or guarantees against complaints, claims, citations or litigation. Panda Pledge coverage is available only for qualifying scopes and is subject to applicable terms.</p>
+  </div>
+</footer>
+
+<!-- ===== MOBILE STICKY BAR =====
+     Call only. Request Review moved up to the header, so the two actions are
+     split between the two fixed bars instead of both living down here. -->
+<div class="sticky-bar">
+  <a href="tel:+18882730077" class="btn btn-dark btn-block" data-track-call="sticky">
+    <svg class="icon" aria-hidden="true" style="color:var(--yellow)"><use href="#i-phone"/></svg>Call Now
+  </a>
+</div>
+
+<!-- Lightbox for the S5 condition cards. A native <dialog>, so the browser
+     owns the modality, the focus trap, the Esc key and the backdrop instead of
+     this page reimplementing them. -->
+<dialog class="lightbox" id="condLightbox" aria-label="Condition photo">
+  <button type="button" class="lightbox-close" aria-label="Close photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+         stroke-linecap="round" width="20" height="20"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <img id="lightboxImg" src="" alt="">
+  <p class="lightbox-caption" id="lightboxCaption"></p>
+</dialog>
+
+<!-- Legal text, pulled from the live pages on open. Nothing is transcribed
+     here: whatever legal publishes on the site is what shows, so the two can
+     never drift apart. -->
+<dialog class="legal-modal" id="legalModal" aria-labelledby="legalTitle">
+  <div class="legal-head">
+    <h2 id="legalTitle"></h2>
+    <button type="button" class="legal-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" width="20" height="20"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="legal-body" id="legalBody" tabindex="0"></div>
+</dialog>
+
+<script src="https://quote.welovepaving.com/loader.js" defer></script>
+<script src="ada-landing.js"></script>
+</body>
+</html>
