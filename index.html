@@ -31,7 +31,10 @@
      hidden there). It's a CSS background, so the browser only discovers it after
      parsing the CSS — preloading it here starts the fetch immediately and ahead
      of the form's heavy third-party assets, cutting LCP. -->
-<link rel="preload" as="image" href="images/ada-hero-bg.webp" fetchpriority="high">
+<!-- Hero background, one per form factor so neither viewport pulls the other's:
+     the dark texture on desktop, the ADA photo on mobile. -->
+<link rel="preload" as="image" href="images/ada-hero-bg.webp" media="(min-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="images/hero-bg-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
 <!-- The gallery's first slide, preloaded only where the gallery shows (>=768).
      media= keeps it off mobile, where .hero-media is display:none and this would
      otherwise pull a photo that never paints. -->

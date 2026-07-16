@@ -1286,7 +1286,20 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   /* Pull the hero up under the sticky chrome: 48px left a dead gap below the
      header, but 16px crammed the eyebrow right against it. 28px clears the
      header comfortably while still showing more of the form up front. */
-  .hero { padding-top: 28px; }
+  .hero {
+    padding-top: 28px;
+    /* Mobile-only ADA photo backdrop. It's bright, so the scrim stays heavy
+       over the top where the eyebrow/heading/lede/bullets sit and eases off
+       lower, where the form card covers the rest anyway. */
+    background-image:
+      linear-gradient(180deg,
+        rgba(20, 18, 14, 0.86) 0%,
+        rgba(20, 18, 14, 0.74) 34%,
+        rgba(20, 18, 14, 0.52) 62%,
+        rgba(20, 18, 14, 0.44) 100%),
+      url("images/hero-bg-mobile.webp");
+    background-position: top center;
+  }
 
   /* S6 — the mobile art carries the emblem at the top, so the separate seal is
      hidden and the section uses the portrait image as its background. The
