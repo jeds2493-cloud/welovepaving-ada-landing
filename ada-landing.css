@@ -44,7 +44,16 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+/* Vertical scroll only. overflow-x: clip blocks a horizontal scrollbar without
+   creating a scroll container (which would break position: sticky, unlike
+   overflow-x: hidden); overscroll-behavior-x: none kills the sideways
+   rubber-band that clip alone still lets through on touch devices; and
+   touch-action: pan-y stops a horizontal drag from being read as a gesture. */
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
 body {
   margin: 0;
   background: var(--card-white);
@@ -54,6 +63,7 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  overscroll-behavior-x: none;
   touch-action: pan-y;
 }
 img { max-width: 100%; display: block; }
@@ -1065,6 +1075,9 @@ body { padding-bottom: 72px; }
   background: rgba(12, 11, 9, 0.88);
   backdrop-filter: blur(3px);
 }
+/* The dialog takes focus on open (see ada-landing.js) so the close button
+   doesn't get an autofocus ring; the dialog is a container, so it shows none. */
+.lightbox:focus, .lightbox:focus-visible { outline: none; }
 .lightbox img {
   width: 100%;
   max-height: 78vh;

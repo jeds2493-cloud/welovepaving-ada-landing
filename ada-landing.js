@@ -219,6 +219,19 @@ if (ba) {
   paint();
 }
 
+/* ---------- Input modality ----------
+   Whether the last interaction came from a pointer (tap/click) or the keyboard.
+   A native <dialog> moves focus programmatically — onto its first control when
+   it opens, back onto the invoker when it closes — and the browser treats that
+   restore as keyboard-like, so :focus-visible lights up a blue ring on a card
+   the user only tapped. We use this flag to drop that ring for pointer users
+   while keeping it for keyboard users, who need it. */
+let lastInputWasKeyboard = false;
+document.addEventListener('pointerdown', () => { lastInputWasKeyboard = false; }, true);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ') lastInputWasKeyboard = true;
+}, true);
+
 /* ---------- Condition photo lightbox (S5) ----------
    The card body opens the photo; the button keeps routing to the form. */
 const lightbox = document.getElementById('condLightbox');
@@ -237,6 +250,9 @@ if (lightbox && typeof lightbox.showModal === 'function') {
       lbImg.alt = img.alt;
       lbCaption.textContent = card.querySelector('h3').textContent;
       lightbox.showModal();
+      // Hold focus on the dialog itself (tabindex="-1"), not the close button:
+      // the dialog would otherwise autofocus that button and paint a ring on it.
+      lightbox.focus();
       track('cond_photo_open', { condition: card.querySelector('h3').textContent });
     });
 
@@ -254,8 +270,16 @@ if (lightbox && typeof lightbox.showModal === 'function') {
   lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
   // Click on the backdrop = click on the dialog itself, never on its contents.
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.close(); });
-  // Drop the src on close so a reopen can't flash the previous photo.
-  lightbox.addEventListener('close', () => { lbImg.src = ''; });
+  lightbox.addEventListener('close', () => {
+    lbImg.src = ''; // drop the src so a reopen can't flash the previous photo
+    // The dialog restores focus to the card that opened it. Keep the ring for
+    // keyboard users; strip it for a tap, where a lingering blue border just
+    // reads as a stuck selection.
+    const restored = document.activeElement;
+    if (!lastInputWasKeyboard && restored && restored.hasAttribute('data-cond-card')) {
+      restored.blur();
+    }
+  });
 }
 
 /* ---------- Legal modals (S11) ----------
