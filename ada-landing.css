@@ -970,7 +970,10 @@ a:hover { color: var(--ada-blue-dark); }
   padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 .sticky-bar .btn { flex: 1; font-size: 13px; padding: 12px 10px; min-height: 46px; }
-body { padding-bottom: 72px; }
+/* Reserve the fixed bar (~63px) plus a small gap so the footer's last line
+   clears it — but no more. 72px flat was leaving dead space below the footer;
+   with the footer's own 22px bottom padding this lands ~15px of clearance. */
+body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
 
 /* ============ BREAKPOINTS ============ */
 
@@ -1243,6 +1246,12 @@ body { padding-bottom: 72px; }
   }
   .utility-bar li { flex: none; white-space: nowrap; }
   .site-header { top: var(--utility-h, 35px); }
+
+  /* S11 — trim the dead space at the very bottom. The last section's 52px
+     bottom padding, the footer padding and the sticky-bar reserve were stacking
+     into a long empty run below the fold. */
+  main > section:last-of-type { padding-bottom: 20px; }
+  .site-footer { padding-top: 26px; padding-bottom: 22px; }
 
   /* S2 — the hero photo is the first thing that can go: the form sits above it
      and the background is already a jobsite shot. */
