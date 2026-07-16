@@ -703,7 +703,7 @@
          what the modal actually shows: the live pages are GenerateBlocks builds
          whose copy sits inside collapsed accordions, so injecting them here would
          render dead headings that open nothing. Regenerate the copies with
-         scratchpad/extract-legal.js whenever Legal edits a page. -->
+         tools/extract-legal.js whenever Legal edits a page. -->
     <ul class="footer-links">
       <li><a href="https://www.welovepaving.com/privacy-policy/" data-legal="Privacy Policy" data-legal-src="legal/privacy-policy.html">Privacy Policy</a></li>
       <li><a href="https://www.welovepaving.com/terms-and-conditions/" data-legal="Terms &amp; Conditions" data-legal-src="legal/terms-and-conditions.html">Terms &amp; Conditions</a></li>
@@ -735,9 +735,11 @@
   <p class="lightbox-caption" id="lightboxCaption"></p>
 </dialog>
 
-<!-- Legal text, pulled from the live pages on open. Nothing is transcribed
-     here: whatever legal publishes on the site is what shows, so the two can
-     never drift apart. -->
+<!-- Legal text. The modal shows a flattened local copy from legal/ (see the
+     footer-links comment and ada-landing.js), not the live page: the live pages
+     are GenerateBlocks builds whose copy sits in collapsed accordions. Keep the
+     copies in sync by regenerating with tools/extract-legal.js when Legal edits
+     a page; the href still points at the live page as a JS-off fallback. -->
 <dialog class="legal-modal" id="legalModal" aria-labelledby="legalTitle">
   <div class="legal-head">
     <h2 id="legalTitle"></h2>
