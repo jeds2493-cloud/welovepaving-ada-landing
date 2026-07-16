@@ -1257,6 +1257,9 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
      and the background is already a jobsite shot. */
   .hero-media { display: none; }
   .hero-inner { grid-template-areas: "copy" "form" "trust"; }
+  /* Pull the hero up under the sticky chrome: 48px left a dead gap below the
+     header and pushed the form further off the first screen. */
+  .hero { padding-top: 16px; }
 
   /* S6 — the mobile art carries the emblem at the top, so the separate seal is
      hidden and the section uses the portrait image as its background. The
