@@ -396,7 +396,10 @@
 </section>
 
 <!-- ===== S6 · WHY WLP + PANDA PLEDGE ===== -->
-<section class="section section--dark">
+<!-- id moved here from the .pledge seal: on desktop the seal is baked into the
+     section's background image and the separate <img> is hidden, so the view
+     event has to live on something that stays in the layout. -->
+<section class="section section--dark why-section" id="panda-pledge">
   <div class="container">
     <div class="why-grid">
       <div>
@@ -426,9 +429,9 @@
         </div>
       </div>
 
-      <!-- The official seal replaces the built card. Keeps #panda-pledge so
-           the view event still fires when the pledge reaches the screen. -->
-      <aside class="pledge" id="panda-pledge">
+      <!-- Mobile/tablet only: below 1080 the seal shows as this separate image.
+           On desktop it's hidden — the background carries its own emblem. -->
+      <aside class="pledge">
         <img src="images/panda-pledge-badge.webp"
              alt="The Panda Pledge seal — We Love Paving, 15 year pothole-free guarantee"
              width="760" height="805" loading="lazy">

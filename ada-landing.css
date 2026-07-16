@@ -1059,7 +1059,26 @@ body { padding-bottom: 72px; }
   }
   .section { padding: 56px 0; }
   .cond-grid { grid-template-columns: repeat(3, 1fr); }
+  /* Desktop-only: the emblem is baked into the background on the right, so the
+     separate seal is hidden and the content keeps to the left column. The grid
+     stays 1.5fr 1fr — with the seal gone, the empty right track lines up with
+     the emblem. The gradient is strong on the left to protect the heading over
+     the yellow road-paint stripes, and fades on the right to reveal the emblem. */
   .why-grid { grid-template-columns: 1.5fr 1fr; gap: 44px; }
+  .why-section {
+    background-color: var(--bg-dark);
+    background-image:
+      linear-gradient(90deg,
+        rgba(20, 18, 14, 0.94) 0%,
+        rgba(20, 18, 14, 0.88) 42%,
+        rgba(20, 18, 14, 0.45) 70%,
+        rgba(20, 18, 14, 0.15) 100%),
+      url("images/s6-background.webp");
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
+  }
+  .why-section .pledge { display: none; }
   .process-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
   .process-step { flex-direction: column; gap: 10px; align-items: stretch; }
   .step-rule { width: 100%; }
