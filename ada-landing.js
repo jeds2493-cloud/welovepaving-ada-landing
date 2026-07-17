@@ -544,3 +544,16 @@ if (glowFine.matches && !reducedMotion.matches) {
     });
   });
 }
+
+/* ---------- Scrolling browser-tab title ----------
+   Marquees the page title in the tab so it advances on its own, rotating one
+   character per tick. Off under reduced motion; restores the real title so the
+   tab never reads mid-scroll there. */
+if (!reducedMotion.matches) {
+  const marqueeTitle = document.title + '   •   ';
+  let titlePos = 0;
+  setInterval(() => {
+    titlePos = (titlePos + 1) % marqueeTitle.length;
+    document.title = marqueeTitle.slice(titlePos) + marqueeTitle.slice(0, titlePos);
+  }, 280);
+}
