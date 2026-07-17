@@ -1366,3 +1366,130 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   }
   .why-section .pledge { display: none; }
 }
+
+/* ============================================================
+   BORDER GLOW on the Panda Pledge cards (.why-card)
+   Vanilla port of React Bits <BorderGlow>, recoloured to WLP gold. The pointer
+   position drives --edge-proximity + --cursor-angle (set in JS); a gradient
+   ring (::before), a soft interior fill (::after) and an outer glow (.edge-light)
+   fade in as the cursor nears an edge. Desktop pointer only, so touch is
+   untouched; .edge-light is injected by JS, so with JS off the cards are plain.
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .why-card {
+    --edge-proximity: 0;
+    --cursor-angle: 45deg;
+    --edge-sensitivity: 30;
+    --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+    --glow-padding: 26px;
+    --cone-spread: 25;
+    --fill-opacity: 0.5;
+    --card-bg: var(--bg-dark-2);
+
+    --glow-color:    hsl(45deg 90% 62% / 100%);
+    --glow-color-60: hsl(45deg 90% 62% / 60%);
+    --glow-color-50: hsl(45deg 90% 62% / 50%);
+    --glow-color-40: hsl(45deg 90% 62% / 40%);
+    --glow-color-30: hsl(45deg 90% 62% / 30%);
+    --glow-color-20: hsl(45deg 90% 62% / 20%);
+    --glow-color-10: hsl(45deg 90% 62% / 10%);
+
+    --gradient-one:   radial-gradient(at 80% 55%, #F2C230 0px, transparent 50%);
+    --gradient-two:   radial-gradient(at 69% 34%, #FFE9A8 0px, transparent 50%);
+    --gradient-three: radial-gradient(at 8% 6%,   #B8860B 0px, transparent 50%);
+    --gradient-four:  radial-gradient(at 41% 38%, #F2C230 0px, transparent 50%);
+    --gradient-five:  radial-gradient(at 86% 85%, #FFE9A8 0px, transparent 50%);
+    --gradient-six:   radial-gradient(at 82% 18%, #B8860B 0px, transparent 50%);
+    --gradient-seven: radial-gradient(at 51% 4%,  #FFE9A8 0px, transparent 50%);
+
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    border: 1px solid rgb(255 255 255 / 12%);
+  }
+  .why-card::before,
+  .why-card::after,
+  .why-card > .edge-light {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transition: opacity 0.25s ease-out;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .why-card:not(:hover)::before,
+  .why-card:not(:hover)::after,
+  .why-card:not(:hover) > .edge-light {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  .why-card::before {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--card-bg) 0 100%) padding-box,
+      linear-gradient(rgb(255 255 255 / 0%) 0 100%) border-box,
+      var(--gradient-one) border-box,
+      var(--gradient-two) border-box,
+      var(--gradient-three) border-box,
+      var(--gradient-four) border-box,
+      var(--gradient-five) border-box,
+      var(--gradient-six) border-box,
+      var(--gradient-seven) border-box;
+    opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%));
+  }
+  .why-card::after {
+    border: 1px solid transparent;
+    background:
+      var(--gradient-one) padding-box,
+      var(--gradient-two) padding-box,
+      var(--gradient-three) padding-box,
+      var(--gradient-four) padding-box,
+      var(--gradient-five) padding-box,
+      var(--gradient-six) padding-box,
+      var(--gradient-seven) padding-box;
+    mask-image:
+      linear-gradient(to bottom, black, black),
+      radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+      conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+    mask-composite: subtract, add;
+    opacity: calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mix-blend-mode: soft-light;
+  }
+  .why-card > .edge-light {
+    inset: calc(var(--glow-padding) * -1);
+    z-index: 1;
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+    opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+    mix-blend-mode: plus-lighter;
+  }
+  .why-card > .edge-light::before {
+    content: "";
+    position: absolute;
+    inset: var(--glow-padding);
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 0 1px var(--glow-color),
+      inset 0 0 3px 0 var(--glow-color-50),
+      inset 0 0 6px 0 var(--glow-color-40),
+      inset 0 0 15px 0 var(--glow-color-30),
+      inset 0 0 25px 2px var(--glow-color-20),
+      inset 0 0 50px 2px var(--glow-color-10),
+      0 0 3px 0 var(--glow-color-50),
+      0 0 6px 0 var(--glow-color-40),
+      0 0 15px 0 var(--glow-color-30),
+      0 0 25px 2px var(--glow-color-20),
+      0 0 50px 2px var(--glow-color-10);
+  }
+  .why-card > :not(.edge-light) { position: relative; z-index: 2; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .why-card::before, .why-card::after, .why-card > .edge-light { display: none; }
+}

@@ -510,3 +510,37 @@ if (heroGallery) {
   reducedMotion.addEventListener('change', () => { reducedMotion.matches ? stop() : (started && play()); });
   document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (started && play()); });
 }
+
+/* ---------- Border glow on the Panda Pledge cards (S6) ----------
+   Ported from React Bits <BorderGlow>: the pointer's proximity to the nearest
+   edge and its angle around the card centre drive two CSS vars the gradient/glow
+   layers read. Desktop pointer only, and not under reduced motion — the CSS layers
+   sit inert until this runs, and .edge-light (the outer glow) is injected here, so
+   with JS off or on touch the cards stay plain. */
+const glowFine = window.matchMedia('(hover: hover) and (pointer: fine)');
+if (glowFine.matches && !reducedMotion.matches) {
+  document.querySelectorAll('.why-card').forEach((card) => {
+    if (!card.querySelector('.edge-light')) {
+      const layer = document.createElement('span');
+      layer.className = 'edge-light';
+      layer.setAttribute('aria-hidden', 'true');
+      card.prepend(layer);
+    }
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const cx = r.width / 2, cy = r.height / 2;
+      const dx = (e.clientX - r.left) - cx;
+      const dy = (e.clientY - r.top) - cy;
+      const kx = dx !== 0 ? cx / Math.abs(dx) : Infinity;
+      const ky = dy !== 0 ? cy / Math.abs(dy) : Infinity;
+      const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+      let deg = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      if (deg < 0) deg += 360;
+      card.style.setProperty('--edge-proximity', (edge * 100).toFixed(2));
+      card.style.setProperty('--cursor-angle', deg.toFixed(2) + 'deg');
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--edge-proximity', '0');
+    });
+  });
+}
