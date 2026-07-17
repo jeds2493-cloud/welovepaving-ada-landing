@@ -741,6 +741,19 @@ a:hover { color: var(--ada-blue-dark); }
   height: auto;
 }
 
+/* The 15-year figure, set off with a yellow rule so it reads as the section's
+   headline number while staying hedged to qualifying surface work. */
+.pledge-highlight {
+  display: flex; flex-direction: column;
+  border-left: 3px solid var(--yellow);
+  padding: 2px 0 2px 14px; margin: 2px 0 22px;
+}
+.pledge-highlight-num {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(20px, 3vw, 26px); line-height: 1.05; color: #fff;
+}
+.pledge-highlight-label { font-size: 12.5px; line-height: 1.4; color: var(--text-muted-dark); margin-top: 3px; }
+
 /* ============ S7 · PROCESS ============ */
 .process-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .process-step { display: flex; gap: 12px; align-items: flex-start; }
