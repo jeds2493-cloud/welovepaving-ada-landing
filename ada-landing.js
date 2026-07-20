@@ -97,14 +97,31 @@ if (utilityEl) {
   }
 }
 
+/* On mobile the address bar collapsing while you scroll fires resize repeatedly,
+   so anything that measures on resize runs far more often than the name suggests.
+   Batch those handlers into one call per frame. */
+const onResize = (fn) => {
+  let queued = false;
+  window.addEventListener('resize', () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; fn(); });
+  });
+};
+
 if (headerEl) {
   const publishChromeHeights = () => {
+    // Measure both first, then write. Setting a custom property on the root
+    // invalidates styles, so reading the second offsetHeight after that write
+    // would force a synchronous reflow.
+    const headerH = headerEl.offsetHeight;
+    const utilityH = utilityEl ? utilityEl.offsetHeight : null;
     const root = document.documentElement.style;
-    root.setProperty('--header-h', `${headerEl.offsetHeight}px`);
-    if (utilityEl) root.setProperty('--utility-h', `${utilityEl.offsetHeight}px`);
+    root.setProperty('--header-h', `${headerH}px`);
+    if (utilityH !== null) root.setProperty('--utility-h', `${utilityH}px`);
   };
   publishChromeHeights();
-  window.addEventListener('resize', publishChromeHeights);
+  onResize(publishChromeHeights);
 }
 
 if (headerEl && heroCard && 'IntersectionObserver' in window) {
@@ -269,17 +286,37 @@ if (ba) {
   const range = ba.querySelector('.ba-range');
   const clip = ba.querySelector('.ba-after-clip');
 
+  // The clipped image must stay the width of the FRAME, not of its shrinking
+  // container, or it squashes instead of being revealed. That width only changes
+  // on resize, so it is cached: dragging the handle then writes styles without
+  // ever reading layout back, which is what was forcing a reflow per input event.
+  let frameW = 0;
+
   const paint = () => {
-    const pct = range.value;
-    ba.style.setProperty('--ba', pct + '%');
-    // The clipped image must stay the width of the FRAME, not of its shrinking
-    // container, or it squashes instead of being revealed.
-    clip.style.setProperty('--ba-w', ba.clientWidth + 'px');
+    ba.style.setProperty('--ba', range.value + '%');
+    clip.style.setProperty('--ba-w', frameW + 'px');
   };
 
+  const measureAndPaint = () => { frameW = ba.clientWidth; paint(); };
+
   range.addEventListener('input', paint);
-  window.addEventListener('resize', paint);
-  paint();
+
+  // Set it once up front. Leaving the first measurement to the observer leaves a
+  // window where --ba-w is unset and the clipped image renders squashed, and in a
+  // background tab that window lasts until the tab is looked at.
+  measureAndPaint();
+
+  if ('ResizeObserver' in window) {
+    // Better than a resize listener on two counts: the width arrives in the
+    // entry, so nothing has to read layout back, and it only fires when the
+    // frame itself changes size rather than on every address-bar collapse.
+    new ResizeObserver((entries) => {
+      frameW = Math.round(entries[0].contentRect.width);
+      paint();
+    }).observe(ba);
+  } else {
+    onResize(measureAndPaint);
+  }
 }
 
 /* ---------- Input modality ----------
