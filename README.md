@@ -47,6 +47,16 @@ deployed to Vercel.
   `tools/extract-legal.js` flattens them into `legal/`; see `tools/README.md`.
 - **Hero photo**: wrapped in `<picture>` so mobile (where it is `display:none`)
   never downloads the 118KB it doesn't show.
+- **Security headers** (`vercel.json`): `nosniff`, a strict-origin referrer
+  policy, `SAMEORIGIN` framing, a `Permissions-Policy` that turns off features
+  the page never uses, and HSTS. `SAMEORIGIN` rather than `DENY` because this
+  page is destined to be rebuilt inside WordPress and may need to be previewed
+  in a frame; it still blocks third-party clickjacking. HSTS is set without
+  `includeSubDomains` on purpose — the eventual home shares a domain with
+  `quote.welovepaving.com`, and forcing that subtree is not this repo's call.
+  A full `Content-Security-Policy` is **not** set: the page loads Google Fonts
+  and a cross-origin form iframe, so a CSP needs to be written and tested
+  against those before it can be enforced without breaking the lead forms.
 
 Destined for WordPress (GeneratePress/GenerateBlocks); this repo is the review
 prototype, not the production home.
