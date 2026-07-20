@@ -1137,7 +1137,9 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
     gap: 18px; flex-wrap: wrap;
   }
   .section { padding: 56px 0; }
-  .cond-grid { grid-template-columns: repeat(3, 1fr); }
+  /* Four trade cards, so 2x2 — a 3-col row would leave an orphan and squeeze the
+     copy. Two columns also give each card room for the condition + the work. */
+  .cond-grid { grid-template-columns: repeat(2, 1fr); }
   /* Desktop-only: the emblem is baked into the background on the right, so the
      separate seal is hidden and the content keeps to the left column. The grid
      stays 1.5fr 1fr — with the seal gone, the empty right track lines up with
