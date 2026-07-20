@@ -1,62 +1,67 @@
-# We Love Paving — ADA Accessibility Upgrades (SEM landing)
+# We Love Paving · ADA Accessibility Upgrades (landing SEM)
 
-Standalone, static SEM landing page for We Love Paving's ADA accessibility
-upgrade service (Northern California commercial properties). Deployed on its own
-so the team can review it without touching the main site prototype.
+Landing SEM estática e independiente para el servicio de mejoras de
+accesibilidad ADA de We Love Paving (propiedades comerciales en el Norte de
+California). La desplegamos por separado para que el equipo la pueda revisar sin
+tocar el prototipo del sitio principal.
 
-Extracted from `welovepaving-prototype` and moved to the repo root: the page that
-lived at `/lp/ada-accessibility-upgrades/` now serves at `/`, with its `images/`
-and `video/` assets alongside it. Nothing about the page itself changed — only
-the `../../images/` asset prefixes were rewritten to `images/`.
+Salió de `welovepaving-prototype` y la movimos a la raíz del repo: la página que
+vivía en `/lp/ada-accessibility-upgrades/` ahora se sirve en `/`, con sus assets
+de `images/` y `video/` al lado. La página en sí no cambió, lo único que
+reescribimos fueron los prefijos `../../images/` a `images/`.
 
-## Structure
+## Estructura
 
 ```
-index.html          the landing (11 sections)
-ada-landing.css      self-contained styles, no build step
-ada-landing.js       tracking, sticky header, lightbox, before/after, legal modals
-legal/               flattened copies of the 3 legal pages, opened in modals
-images/  video/      only the assets this page references
-tools/               build-time only (excluded from deploy via .vercelignore)
+index.html          la landing (11 secciones)
+ada-landing.css     estilos autocontenidos, sin build
+ada-landing.js      tracking, header sticky, lightbox, before/after, modales legales
+legal/              copias aplanadas de las 3 páginas legales, se abren en modales
+images/  video/     solo los assets que esta página usa
+tools/              solo para build (excluido del deploy con .vercelignore)
 ```
 
-## Running locally
+## Correrla en local
 
-Any static server from the repo root:
+Cualquier servidor estático desde la raíz del repo:
 
 ```
 npx serve .
 ```
 
-Note: the two lead forms are cross-origin iframes from `quote.welovepaving.com`,
-whose CSP only allows `welovepaving` domains and `*.vercel.app`. On `localhost`
-they render blank — this is expected, not a bug. They render correctly once
-deployed to Vercel.
+Ojo: los dos formularios son iframes cross-origin de `quote.welovepaving.com`, y
+su CSP solo permite dominios `welovepaving` y `*.vercel.app`. En `localhost` se
+ven en blanco. **Esto es lo esperado, no es un bug**: ya desplegados en Vercel
+cargan bien.
 
-## Notable decisions
+## Decisiones que conviene conocer
 
-- **`noindex`**: this is a paid-traffic landing. The `<meta name="robots">` tag
-  keeps it out of search so it can't cannibalize the main site's ADA pages. The
-  `canonical` still points to `welovepaving.com/lp/ada-accessibility-upgrades/`,
-  the page's eventual production home — not this preview.
-- **Forms**: loader-driven iframes from the WLP form library. The loader owns
-  validation, attribution (utm/gclid/first-touch) and the thank-you redirect.
-  The `sem_*` form_source is what fires the Google Ads conversion.
-- **Legal modals**: the live legal pages are GenerateBlocks builds whose text
-  sits inside collapsed accordions, so they can't be fetched and injected as-is.
-  `tools/extract-legal.js` flattens them into `legal/`; see `tools/README.md`.
-- **Hero photo**: wrapped in `<picture>` so mobile (where it is `display:none`)
-  never downloads the 118KB it doesn't show.
-- **Security headers** (`vercel.json`): `nosniff`, a strict-origin referrer
-  policy, `SAMEORIGIN` framing, a `Permissions-Policy` that turns off features
-  the page never uses, and HSTS. `SAMEORIGIN` rather than `DENY` because this
-  page is destined to be rebuilt inside WordPress and may need to be previewed
-  in a frame; it still blocks third-party clickjacking. HSTS is set without
-  `includeSubDomains` on purpose — the eventual home shares a domain with
-  `quote.welovepaving.com`, and forcing that subtree is not this repo's call.
-  A full `Content-Security-Policy` is **not** set: the page loads Google Fonts
-  and a cross-origin form iframe, so a CSP needs to be written and tested
-  against those before it can be enforced without breaking the lead forms.
+- **`noindex`**: esta es una landing de tráfico pagado. La etiqueta
+  `<meta name="robots">` la mantiene fuera de buscadores para que no canibalice
+  las páginas ADA del sitio principal. El `canonical` sí apunta a
+  `welovepaving.com/lp/ada-accessibility-upgrades/`, que es su casa final en
+  producción, no este preview.
+- **Formularios**: iframes que inyecta el loader de la librería de formularios de
+  WLP. El loader se encarga de la validación, la atribución (utm/gclid/
+  first-touch) y el redirect al thank-you. El `form_source` con prefijo `sem_*`
+  es el que dispara la conversión de Google Ads, no lo cambien.
+- **Modales legales**: las páginas legales en vivo están hechas con
+  GenerateBlocks y su texto vive dentro de acordeones colapsados, así que no se
+  pueden traer e inyectar tal cual. `tools/extract-legal.js` las aplana hacia
+  `legal/`. Ver `tools/README.md`.
+- **Foto del hero**: va envuelta en `<picture>` para que en móvil (donde está en
+  `display:none`) no se descarguen los 118KB que no se ven.
+- **Cabeceras de seguridad** (`vercel.json`): `nosniff`, referrer policy
+  estricta, framing en `SAMEORIGIN`, un `Permissions-Policy` que apaga las
+  funciones que la página nunca usa, y HSTS. Pusimos `SAMEORIGIN` en lugar de
+  `DENY` porque la página va a rearmarse dentro de WordPress y puede necesitar
+  verse en un frame; aun así bloquea clickjacking de terceros. El HSTS va a
+  propósito **sin** `includeSubDomains`, porque el dominio final se comparte con
+  `quote.welovepaving.com` y forzar ese subárbol no es decisión de este repo.
+  **No** pusimos un `Content-Security-Policy` completo: la página carga Google
+  Fonts y el iframe de formulario cross-origin, así que la CSP hay que
+  escribirla y probarla contra esos orígenes antes de activarla. Una CSP mal
+  puesta rompe los formularios en silencio y ahí se pierden leads.
 
-Destined for WordPress (GeneratePress/GenerateBlocks); this repo is the review
-prototype, not the production home.
+El destino es WordPress (GeneratePress/GenerateBlocks). Este repo es el
+prototipo de revisión, no la casa de producción.
