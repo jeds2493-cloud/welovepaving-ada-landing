@@ -9,6 +9,12 @@
      /services/ada-upgrades.html for the same organic queries. -->
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://www.welovepaving.com/lp/ada-accessibility-upgrades/">
+<!-- The only security header we can set from the page itself: it keeps the full
+     URL, campaign parameters included, from leaking to third parties on outbound
+     clicks. Modern browsers already default to this, so it mainly covers older
+     ones and makes the intent explicit. X-Frame-Options and Permissions-Policy
+     have no working <meta> equivalent and must be set at the server or CDN. -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#14120E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="We Love Paving">

@@ -1,132 +1,172 @@
-# We Love Paving · ADA Accessibility Upgrades (landing SEM)
+# We Love Paving · ADA Accessibility Upgrades (SEM landing)
 
-Landing SEM estática e independiente para el servicio de mejoras de
-accesibilidad ADA de We Love Paving (propiedades comerciales en el Norte de
-California).
+Standalone, static SEM landing page for We Love Paving's ADA accessibility
+upgrade service (Northern California commercial properties).
 
-**Este es el repo de producción.** La landing se publica tal cual está aquí, con
-este código. No se rearma en un page builder: el HTML, CSS y JS de este repo son
-los que salen a producción. El despliegue puede pasar por WordPress, pero la
-página no se reconstruye con GeneratePress ni GenerateBlocks.
+**This is the production repo.** The landing ships exactly as it is here, with
+this code. It is not rebuilt in a page builder: the HTML, CSS and JS in this repo
+are what goes live. Deployment goes through WordPress, but the page is not
+reconstructed with GeneratePress or GenerateBlocks.
 
-Vive en su propio repo, separada del sitio principal, para que se pueda publicar
-y actualizar sin tocar nada más.
+It lives in its own repo, separate from the main site, so it can be published and
+updated without touching anything else.
 
-## Estructura
+## Structure
 
 ```
-index.html          la landing (11 secciones)
-ada-landing.css     estilos autocontenidos, sin build
-ada-landing.js      tracking, header sticky, lightbox, before/after, modales legales
-legal/              copias aplanadas de las 3 páginas legales, se abren en modales
-images/  video/     solo los assets que esta página usa
-tools/              solo para build (excluido del deploy con .vercelignore)
-vercel.json         cabeceras de seguridad
+index.html          the landing (11 sections)
+ada-landing.css     self-contained styles, no build step
+ada-landing.js      tracking, sticky header, lightbox, before/after, legal modals
+legal/              flattened copies of the 3 legal pages, opened in modals
+images/  video/     only the assets this page references
+tools/              build-time only (excluded from deploy via .vercelignore)
+vercel.json         security headers (see the caveat below)
 ```
 
-No hay build ni dependencias: se sirve tal cual.
+No build, no dependencies: it is served as-is.
 
-## Correrla en local
+## Running locally
 
-Cualquier servidor estático desde la raíz del repo:
+Any static server from the repo root:
 
 ```
 npx serve .
 ```
 
-Ojo: los dos formularios son iframes cross-origin de `quote.welovepaving.com`, y
-su CSP solo permite dominios `welovepaving` y `*.vercel.app`. En `localhost` se
-ven en blanco. **Esto es lo esperado, no es un bug**: ya desplegados cargan bien.
+Note: both lead forms are cross-origin iframes from `quote.welovepaving.com`,
+whose CSP only allows `welovepaving` domains and `*.vercel.app`. On `localhost`
+they render blank. **This is expected, not a bug**: they load correctly once
+deployed to a welovepaving domain.
 
-## Seguridad
+## Where this actually gets deployed
 
-### Cabeceras (`vercel.json`)
+Production is `welovepaving.com/lp/<slug>/`, alongside the other landings
+(`/lp/parking-lot-striping/`, `/lp/concrete-services/`, and so on). That stack is
+**WordPress on Pressidium behind Cloudflare**, with Rank Math handling SEO. Two
+consequences worth knowing before handoff:
 
-Se sirven en todas las rutas. Si el despliegue final no pasa por Vercel, **hay
-que replicarlas en el servidor que se use**, porque este archivo solo lo lee
-Vercel.
+- **`vercel.json` is never read there.** It is only honoured if the page is
+  served from Vercel. On the real host the headers have to be set at Cloudflare
+  or the origin (see below).
+- **Rank Math owns `robots` and `canonical`.** It generates its own tags, so the
+  ones in this `index.html` can be overridden or duplicated. The `noindex` has to
+  be configured **in Rank Math for that page**; do not rely on our markup alone.
+  The other landings use `nofollow, noindex, noimageindex`, so match that.
 
-| Cabecera | Qué hace |
+The forms need no changes: `welovepaving.com` is already allowed by their CSP.
+
+## Security
+
+### Headers
+
+`vercel.json` sets five headers for preview deploys:
+
+| Header | What it does |
 |---|---|
-| `X-Content-Type-Options: nosniff` | Evita que el navegador adivine el tipo de archivo y termine ejecutando como script algo que no lo es. |
-| `Referrer-Policy: strict-origin-when-cross-origin` | Al salir a otro dominio solo se manda el origen, no la URL completa con sus parámetros de campaña. |
-| `X-Frame-Options: SAMEORIGIN` | Impide que un tercero meta la página en un iframe para robar clics (clickjacking). |
-| `Permissions-Policy` | Apaga cámara, micrófono, geolocalización, pagos y USB. La página nunca los usa, así que se niegan de entrada. |
-| `Strict-Transport-Security` | Obliga HTTPS en visitas siguientes. |
+| `X-Content-Type-Options: nosniff` | Stops the browser guessing a file's type and executing something that is not a script as one. |
+| `Referrer-Policy: strict-origin-when-cross-origin` | On outbound clicks only the origin is sent, not the full URL with its campaign parameters. |
+| `X-Frame-Options: SAMEORIGIN` | Stops a third party putting the page in an iframe to harvest clicks (clickjacking). |
+| `Permissions-Policy` | Turns off camera, microphone, geolocation, payments and USB. The page never uses them, so they are denied up front. |
+| `Strict-Transport-Security` | Forces HTTPS on later visits. |
 
-Dos decisiones deliberadas:
+Two deliberate choices: `SAMEORIGIN` rather than `DENY`, so a same-domain
+WordPress template or preview can still frame the page while third parties stay
+blocked; and HSTS without `includeSubDomains`, because the production domain is
+shared with `quote.welovepaving.com` and forcing that whole subtree is not this
+repo's call.
 
-- **`SAMEORIGIN` y no `DENY`**: si el despliegue pasa por WordPress en el mismo
-  dominio, `DENY` podría romper una vista previa o una plantilla que la
-  encuadre. `SAMEORIGIN` deja pasar el mismo origen y sigue bloqueando a
-  terceros, que es el riesgo real.
-- **HSTS sin `includeSubDomains`**: el dominio final se comparte con
-  `quote.welovepaving.com`. Forzar HTTPS en todo ese subárbol afecta servicios
-  que no dependen de este repo, así que esa decisión no se toma desde aquí.
+### What production is actually missing
 
-### CSP: pendiente a propósito
+Checked against the live headers on `welovepaving.com/lp/`:
 
-**No** hay `Content-Security-Policy` todavía, y es una decisión consciente, no un
-olvido. La página carga Google Fonts y el iframe de formulario cross-origin, así
-que una CSP tiene que escribirse y probarse contra esos orígenes antes de
-activarse. **Una CSP mal puesta rompe los formularios en silencio**: la página
-se ve bien y los leads dejan de entrar sin que nadie se entere.
+| Header | Status in production |
+|---|---|
+| `X-Content-Type-Options` | already set site-wide |
+| `Strict-Transport-Security` | already set site-wide (180 days) |
+| `Referrer-Policy` | **missing** |
+| `X-Frame-Options` | **missing**, so there is no clickjacking protection |
+| `Permissions-Policy` | one exists, but only for Cloudflare/reCAPTCHA tokens; it does not disable device features |
 
-Para cuando se haga, tiene que permitir al menos: `quote.welovepaving.com`
-(frame), `fonts.googleapis.com` y `fonts.gstatic.com`. Conviene arrancarla en
-modo `Report-Only` y verificarla enviando un formulario de prueba de punta a
-punta antes de forzarla.
+These are missing **site-wide, not just on this landing**, so the efficient fix
+is a single Cloudflare Transform Rule covering every `/lp/` page rather than
+patching one repo.
 
-### Qué se auditó
+Only one of the three can be fixed from the page itself, and it already is:
+`<meta name="referrer">` is in the `<head>`. `X-Frame-Options` and
+`Permissions-Policy` have no working `<meta>` equivalent (a meta-delivered CSP
+ignores `frame-ancestors` by specification), so they can only come from the
+server or CDN. A JavaScript frame-buster is **not** a substitute: a sandboxed
+iframe defeats it, which buys the appearance of protection without the protection.
 
-Revisión del árbol de archivos y del historial completo de git:
+**None of this is required for the page to work.** These are defence-in-depth
+layers; nothing breaks without them. Realistic exposure is low: modern browsers
+already default to `strict-origin-when-cross-origin`, and the page never requests
+camera, microphone or location. `X-Frame-Options` is the one with a real, if
+small, gap.
 
-- **Sin credenciales**: no hay API keys, tokens, llaves privadas ni contraseñas,
-  ni en los archivos actuales ni en commits anteriores.
-- **Sin datos personales**: los únicos contactos son corporativos y públicos
-  (`contact@welovepaving.com` y el teléfono de la campaña).
-- **Sin rutas locales** ni nombres de usuario de nuestras máquinas.
-- **Sin código de depuración** en lo que se publica. Los `console.log` que hay
-  viven en `tools/`, que está excluido del deploy.
-- **XSS**: los usos de `innerHTML` reciben únicamente datos que están escritos en
-  el repo (`data-legal-src`, `href`) y el `fetch` es al mismo origen. Nada viene
-  de input del usuario.
-- **Enlaces externos**: todos los `target="_blank"` llevan `rel="noopener"`, así
-  que la pestaña destino no puede manipular la nuestra.
+### CSP: deliberately not set
 
-**Salidas a dominios externos** (todas necesarias): `welovepaving.com`,
-`quote.welovepaving.com` (formularios), Google Fonts, y un enlace al PDF público
-de la garantía alojado en Elfsight. Ese último es solo un enlace, no un script de
-terceros cargado en la página.
+There is **no** `Content-Security-Policy` yet, and that is a decision rather than
+an oversight. The page loads Google Fonts and a cross-origin form iframe, so a
+CSP has to be written and tested against those origins first. **A wrong CSP
+breaks the forms silently**: the page still looks fine while leads quietly stop
+arriving.
 
-### Guardas del repo
+When it is written it must allow at least `quote.welovepaving.com` (frame),
+`fonts.googleapis.com` and `fonts.gstatic.com`. Start it in `Report-Only` and
+confirm an end-to-end test submission before enforcing it.
 
-`.gitignore` bloquea `.env*`, `*.local`, `*.pem` y `*.key` para que un secreto no
-se pueda subir por accidente. `tools/` no se despliega (`.vercelignore`).
+### What was audited
 
-## Decisiones que conviene conocer
+Reviewed across the working tree and the full git history:
 
-- **`noindex`**: esta es una landing de tráfico pagado. La etiqueta
-  `<meta name="robots">` la mantiene fuera de buscadores para que no canibalice
-  las páginas ADA del sitio principal. El `canonical` apunta a
-  `welovepaving.com/lp/ada-accessibility-upgrades/`. **Si en algún momento se
-  espera tráfico orgánico, hay que quitar el `noindex` a mano.**
-- **Formularios**: iframes que inyecta el loader de la librería de formularios de
-  WLP. El loader se encarga de la validación, la atribución (utm/gclid/
-  first-touch) y el redirect al thank-you. El `form_source` con prefijo `sem_*`
-  es el que dispara la conversión de Google Ads, no lo cambien.
-- **Modales legales**: las páginas legales del sitio vivo están hechas con
-  GenerateBlocks y su texto vive dentro de acordeones colapsados, así que no se
-  pueden traer e inyectar tal cual. `tools/extract-legal.js` las aplana hacia
-  `legal/`. Ver `tools/README.md`. **Cuando Legal edite una página hay que
-  regenerar esas copias**, no se actualizan solas.
-- **Foto del hero**: va envuelta en `<picture>` para que en móvil (donde está en
-  `display:none`) no se descarguen los 118KB que no se ven.
+- **No credentials**: no API keys, tokens, private keys or passwords, in current
+  files or in earlier commits.
+- **No personal data**: the only contacts are public and corporate
+  (`contact@welovepaving.com` and the campaign phone number).
+- **No local paths** or machine usernames.
+- **No debug output** in what ships. The `console.log` calls live in `tools/`,
+  which is excluded from deploy.
+- **XSS**: every `innerHTML` write takes data that is hardcoded in this repo
+  (`data-legal-src`, `href`), fetched same-origin. None of it comes from user
+  input.
+- **Outbound links**: all `target="_blank"` links carry `rel="noopener"`, so the
+  destination tab cannot manipulate ours.
 
-## Antes de publicar
+**External origins** (all necessary): `welovepaving.com`,
+`quote.welovepaving.com` (forms), Google Fonts, and a link to the public warranty
+PDF hosted on Elfsight. That last one is a link, not a third-party script loaded
+into the page.
 
-1. Confirmar la decisión del `noindex`.
-2. Verificar que los formularios cargan y envían en el dominio final (en
-   `localhost` siempre se ven en blanco).
-3. Si el hosting no es Vercel, replicar las cabeceras de `vercel.json`.
-4. Revisar que las copias de `legal/` estén al día con lo que publicó Legal.
+### Repo guards
+
+`.gitignore` blocks `.env*`, `*.local`, `*.pem` and `*.key` so a secret cannot be
+committed by accident. `tools/` is kept out of the deploy via `.vercelignore`.
+
+## Decisions worth knowing
+
+- **`noindex`**: this is a paid-traffic landing, kept out of search so it cannot
+  cannibalise the main site's ADA pages. The `canonical` points at
+  `welovepaving.com/lp/ada-accessibility-upgrades/`. **If organic traffic is ever
+  expected, the `noindex` has to be removed deliberately**, and remember Rank
+  Math, not this file, is what production will honour.
+- **Forms**: loader-injected iframes from the WLP form library. The loader owns
+  validation, attribution (utm/gclid/first-touch) and the thank-you redirect. The
+  `sem_*` `form_source` prefix is what fires the Google Ads conversion; do not
+  change it.
+- **Legal modals**: the live legal pages are GenerateBlocks builds whose copy
+  sits inside collapsed accordions, so they cannot be fetched and injected as-is.
+  `tools/extract-legal.js` flattens them into `legal/`; see `tools/README.md`.
+  **When Legal edits a page these copies must be regenerated**, they do not
+  update themselves.
+- **Hero photo**: wrapped in `<picture>` so mobile, where it is `display:none`,
+  never downloads the 118KB it does not show.
+
+## Before publishing
+
+1. Confirm the `noindex` decision, and set it in Rank Math for the page.
+2. Verify the forms load and submit on the final domain (they are always blank on
+   `localhost`).
+3. Add the three missing headers at Cloudflare, ideally for the whole `/lp/` path
+   rather than this page alone.
+4. Check the `legal/` copies still match what Legal has published.
