@@ -1495,3 +1495,21 @@ body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
   .why-card::before, .why-card::after, .why-card > .edge-light { display: none; }
 }
+
+/* ============================================================
+   TYPOGRAPHY — orphan control
+   A single word dropping onto its own last line reads as a mistake, and a
+   hyphenated term like "in-house" splitting across lines reads worse. `pretty`
+   pulls a word down to avoid the orphan; `balance` evens out short headings.
+   Both degrade to normal wrapping where unsupported.
+
+   To bind a phrase, prefer &nbsp; + the non-breaking hyphen (&#8209;) in the
+   markup. A .nowrap <span> would become an extra flex item inside layouts like
+   .hero-benefits li (display:flex) and get pushed onto its own column.
+   ============================================================ */
+h1, h2, h3, .hero-lede, .section-lede { text-wrap: balance; }
+p, li, .cond-body p, .faq-a { text-wrap: pretty; }
+/* Exception: these are short labels, not prose. `pretty` would pull a word down
+   to lengthen the last line, which here just breaks the phrase earlier than it
+   needs to. Let them fill the line and wrap naturally. */
+.hero-benefits li { text-wrap: wrap; }
