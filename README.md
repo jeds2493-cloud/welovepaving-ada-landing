@@ -150,6 +150,11 @@ committed by accident. `tools/` is kept out of the deploy via `.vercelignore`.
   `welovepaving.com/lp/ada-accessibility-upgrades/`. **If organic traffic is ever
   expected, the `noindex` has to be removed deliberately**, and remember Rank
   Math, not this file, is what production will honour.
+- **No way out**: this is a paid-traffic landing with no navigation by design.
+  The header logo is **not** a link, on purpose, so a visitor cannot bounce to
+  the main site. The only exits are the phone, the form and the legal modals
+  (which are intercepted by JS and opened in place; their `href` is only a
+  fallback if JS fails). Do not turn the logo back into a link.
 - **Forms**: loader-injected iframes from the WLP form library. The loader owns
   validation, attribution (utm/gclid/first-touch) and the thank-you redirect. The
   `sem_*` `form_source` prefix is what fires the Google Ads conversion; do not
